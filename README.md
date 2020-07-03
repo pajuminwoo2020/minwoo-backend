@@ -1,9 +1,8 @@
 # Bigstep backend
 
+* 역할: DJango REST API server
+* 환경: python 3.7.3 (파이썬 virtualenv 구성은[link](https://beomi.github.io/2016/12/28/HowToSetup-Virtualenv-VirtualenvWrapper/) 참고)
 ---
-
-## 기본 환경
-* python 3.7.3 (파이썬 virtualenv 구성은[link](https://beomi.github.io/2016/12/28/HowToSetup-Virtualenv-VirtualenvWrapper/) 참고)
 
 ## Django server 띄우는 방법
 
