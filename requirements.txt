@@ -6,3 +6,6 @@ django-environ==0.4.4
 django-log-request-id==1.4.1
 drf-yasg==1.17.0
 psycopg2==2.7.4
+pytest-django==3.7.0
+pytest==5.3.2
+pytest-env==0.6.2

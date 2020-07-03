@@ -11,7 +11,7 @@ logger = logging.getLogger('quotalogger')
 
 
 class UserManager(BaseUserManager):
-    def create(self, userid, fullname, password, is_active=False, fullname_en=None):
+    def create_user(self, userid, fullname, password, is_active=False, fullname_en=None):
         if not userid:
             raise ValueError('User must have a userid')
         if not fullname:

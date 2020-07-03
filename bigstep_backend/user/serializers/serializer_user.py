@@ -46,7 +46,7 @@ class UserCreateRequestSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        return get_user_model().objects.create(
+        return get_user_model().objects.create_user(
             userid=validated_data.get('userid'),
             fullname=validated_data.get('fullname'),
             fullname_en=validated_data.get('fullname_en'),
