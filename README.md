@@ -8,16 +8,16 @@
 
 ### 패키지 설치
 
-postgresql를 설치한다. pycopg2 python패키지 설치를 위해 필요한 과정이다.
+1. postgresql를 설치한다. pycopg2 python패키지 설치를 위해 필요한 과정이다.
 ```bash
 $ sudo apt-get install postgresql postgresql-contrib
 ```
-python 패키지를 설치한다.
+2. python 패키지를 설치한다.
 ```bash
 $ cd bitstep-backend
 $ pip install -r requirements.txt
 ```
-환경변수 설정을 한다. 아래와 같이 .env 파일 생성 후 임의로 만든 SECRET KEY를 설정해준다
+3. 환경변수 설정을 한다. 아래와 같이 .env 파일 생성 후 임의로 만든 SECRET KEY를 설정해준다
 ```bash
 $ cd bigstep-backend/bigstep_backend/app/settings
 $ cp .env-example .env
