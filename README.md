@@ -17,10 +17,12 @@ $ sudo apt-get install postgresql postgresql-contrib
 $ cd bitstep-backend
 $ pip install -r requirements.txt
 ```
-3. 환경변수 설정을 한다. 아래와 같이 .env 파일 생성 후 임의로 만든 SECRET KEY를 설정해준다
+3. 환경변수 설정을 한다. 아래와 같이 .env 파일 생성 후 임의로 만든 SECRET KEY를 설정해준다. local에서는 .env-example에 셋팅된 값을 그대로 사용해도
 ```bash
 $ cd bigstep-backend/bigstep_backend/app/settings
 $ cp .env-example .env
+```
+```vim
 ```
 
 ### 서버 띄우기
