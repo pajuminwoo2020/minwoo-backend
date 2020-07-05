@@ -156,3 +156,12 @@ class TreeModelMixin:
             result['children'] = children
 
         return result
+
+
+class PermissionMixin:
+    def get_permissions(self):
+        try:
+            # return permission_classes depending on http method
+            return [permission() for permission in self.permission_classes[self.request.method.lower()]]
+        except KeyError:
+            return [IsAuthenticated()]

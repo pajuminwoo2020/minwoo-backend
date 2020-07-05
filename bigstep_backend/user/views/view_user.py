@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from user.serializers import UserCreateRequestSerializer, UserRequestSerializer, UserResponseSerializer, UserLoginRequestSerializer
+from app.common.mixins import PermissionMixin
 
 logger = logging.getLogger('quotalogger')
 
@@ -89,8 +90,11 @@ class UserLogoutView(APIView):
         return JsonResponse({'id': user_id}, safe=False, status=status.HTTP_200_OK)
 
 
-class UserView(APIView):
-    permission_classes = [IsAuthenticated]
+class UserView(PermissionMixin, APIView):
+    permission_classes = {
+        'get': [],
+        'put': [IsAuthenticated],
+    }
 
     @swagger_auto_schema(
         tags=['user'],
@@ -103,6 +107,9 @@ class UserView(APIView):
         """
         Gets the User within the current request.
         """
+        if not request.user.is_authenticated:
+            return JsonResponse(None, safe=False, status=status.HTTP_200_OK)
+
         return JsonResponse(UserResponseSerializer(request.user, context={'request': request}).data, safe=False, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
