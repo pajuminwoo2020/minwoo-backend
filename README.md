@@ -32,3 +32,14 @@ $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py runserver
 ```
+
+### Windows
+1. postgresql-contirb 설치
+postgresql login후,
+```bash
+create extenstion pgcrypto;
+```
+2. python 패키지 설치
+Microsoft Visual C++ 14.0 is required 에러 발생하면(psycopg2),
+아래 링크에서 MS Build Tools 다운로드
+https://visualstudio.microsoft.com/ko/visual-cpp-build-tools/
