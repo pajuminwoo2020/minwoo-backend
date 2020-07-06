@@ -1,5 +1,5 @@
 """
-WSGI config for bigstep_backend project.
+WSGI config for minwoo_backend project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
