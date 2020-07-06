@@ -19,7 +19,7 @@ $ pip install -r requirements.txt
 ```
 3. 환경변수 설정을 한다. 아래와 같이 .env 파일 생성 후 임의로 만든 SECRET KEY를 설정해준다. local에서는 .env-example에 셋팅된 값을 그대로 사용해도
 ```bash
-$ cd bigstep-backend/bigstep_backend/app/settings
+$ cd minwoo-backend/minwoo_backend/app/settings
 $ cp .env-example .env
 ```
 ```vim
@@ -27,7 +27,7 @@ $ cp .env-example .env
 
 ### 서버 띄우기
 ```bash
-$ cd bigstep-backend/bigstep_backend
+$ cd minwoo-backend/minwoo_backend
 $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py runserver
