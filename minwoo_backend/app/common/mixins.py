@@ -9,7 +9,7 @@ from rest_framework.mixins import ListModelMixin as BaseListModelMixin
 from rest_framework.pagination import PageNumberPagination as BasePageNumberPagination
 from rest_framework.settings import api_settings
 
-logger = logging.getLogger('quotalogger')
+logger = logging.getLogger('logger')
 
 
 class PageNumberPagination(BasePageNumberPagination):

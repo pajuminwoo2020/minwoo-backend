@@ -6,7 +6,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/main/', admin.site.urls, name='admin'),
-    path('', include('user.urls', namespace="user")),
+    path('', include('user.urls', namespace='user')),
+    path('', include('board.urls', namespace='board')),
+    path('', include('information.urls', namespace='information')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

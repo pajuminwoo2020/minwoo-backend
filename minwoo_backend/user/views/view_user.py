@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from user.serializers import UserCreateRequestSerializer, UserRequestSerializer, UserResponseSerializer, UserLoginRequestSerializer
 from app.common.mixins import PermissionMixin
 
-logger = logging.getLogger('quotalogger')
+logger = logging.getLogger('logger')
 
 
 class CreateUserView(APIView):

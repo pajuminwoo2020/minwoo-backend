@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 
+    'hitcount',
     # Project-specific apps
     'user',
+    'board',
+    'information',
 ]
 
 MIDDLEWARE = [

@@ -7,7 +7,7 @@ from django.db import models
 from django.utils import translation
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY
 
-logger = logging.getLogger('quotalogger')
+logger = logging.getLogger('logger')
 
 
 class UserManager(BaseUserManager):

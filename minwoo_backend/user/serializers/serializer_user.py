@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
-logger = logging.getLogger('quotalogger')
+logger = logging.getLogger('logger')
 
 
 def _validate_password(password, password_field=None):

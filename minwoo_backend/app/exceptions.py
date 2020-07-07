@@ -4,7 +4,7 @@ from rest_framework.exceptions import APIException, ValidationError, ParseError,
 from rest_framework.views import exception_handler as base_exception_handler
 from rest_framework import status
 
-logger = logging.getLogger('quotalogger')
+logger = logging.getLogger('logger')
 
 
 class ErrorCode:
