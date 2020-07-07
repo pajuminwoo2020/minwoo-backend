@@ -1,7 +1,7 @@
 # Minwoo backend
 
 * 역할: DJango REST API server
-* 환경: python 3.7.3 (파이썬 virtualenv 구성은[link](https://beomi.github.io/2016/12/28/HowToSetup-Virtualenv-VirtualenvWrapper/) 참고)
+* 환경: python 3.7.3 (파이썬 virtualenv 구성은 [link](https://beomi.github.io/2016/12/28/HowToSetup-Virtualenv-VirtualenvWrapper/) 참고)
 ---
 
 ## Django server 띄우는 방법
@@ -21,8 +21,6 @@ $ pip install -r requirements.txt
 ```bash
 $ cd minwoo-backend/minwoo_backend/app/settings
 $ cp .env-example .env
-```
-```vim
 ```
 
 ### 서버 띄우기
