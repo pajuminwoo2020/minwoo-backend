@@ -73,8 +73,6 @@ class ListModelMixin(BaseListModelMixin):
 
     def list(self, queryset, serializer_class, **kwargs):
         queryset = self._filter_queryset(queryset)
-        queryset = self._filter_serializer(queryset, serializer_class, **kwargs)
-
         page = self._paginate_queryset(queryset)
         if page is not None:
             return self._get_paginated_response((serializer_class(page, many=True, **kwargs).data))
@@ -91,22 +89,6 @@ class ListModelMixin(BaseListModelMixin):
             queryset = backend().filter_queryset(self.request, queryset, self)
 
         return queryset
-
-    def _filter_serializer(self, queryset, serializer_class, **kwargs):
-        search_word = self.request.query_params.get('q', '')
-        if not hasattr(self, 'serializer_fields_filter') or not isinstance(self.serializer_fields_filter, list) or search_word == '':
-            return queryset
-        serializer_results = serializer_class(queryset, many=True, **kwargs).data
-        target_id = []
-        for serializer_result in serializer_results:
-            for filters in self.serializer_fields_filter:
-                keys = filters.split('__')
-                target_dict = serializer_result
-                for key in keys[:-1]:
-                    target_dict = target_dict.get(key, {})
-                if search_word.lower() in target_dict.get(keys[-1:][0], '').lower() and serializer_result.get('id', '') not in target_id:
-                    target_id.append(serializer_result.get('id', ''))
-        return queryset.filter(id__in=target_id)
 
     @property
     def paginator(self):

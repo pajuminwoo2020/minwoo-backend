@@ -7,4 +7,5 @@ urlpatterns = [
     ### BoardSettlement
     path('board/settlement/create', views.CreateBoardSettlementView.as_view(), name='board_settlement_create'),
     path('board/settlement/<int:board_id>', views.BoardSettlementView.as_view(), name='board_settlement'),
+    path('board/settlements', views.BoardSettlementsView.as_view(), name='board_settlements'),
 ]

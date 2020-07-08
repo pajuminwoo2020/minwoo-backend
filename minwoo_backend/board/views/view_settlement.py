@@ -10,8 +10,10 @@ from rest_framework.views import APIView
 from hitcount.views import HitCountMixin
 
 from board.models import BoardSettlement
-from board.serializers import BoardSettlementResponseSerializer, CreateBoardSettlementRequestSerializer, BoardSettlementRequestSerializer
-from app.common.mixins import PermissionMixin
+from board.serializers import BoardSettlementResponseSerializer, CreateBoardSettlementRequestSerializer, BoardSettlementRequestSerializer, BoardSettlementWithBodyResponseSerializer
+from app.common.mixins import PermissionMixin, ListModelMixin
+from app.common.utils import SchemaGenerator
+from app.common.filters import SearchFilter
 
 logger = logging.getLogger('logger')
 
@@ -51,7 +53,7 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
         operation_id='Get BoardSettlement',
         operation_summary='✅✅',
         responses={
-            200: BoardSettlementResponseSerializer,
+            200: BoardSettlementWithBodyResponseSerializer,
         },
     )
     def get(self, request, board_id, *args, **kwargs):
@@ -61,7 +63,7 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
         board = get_object_or_404(BoardSettlement, pk=board_id)
         self.hit_count(request, board.hit_count)
 
-        return JsonResponse(BoardSettlementResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(BoardSettlementWithBodyResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         tags=['board'],
@@ -99,8 +101,7 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
     )
     def delete(self, request, board_id, *args, **kwargs):
         """
-        Deletes the BoardSettlement with the corresponding id
-        """
+        Deletes the BoardSettlement with the corresponding id """
         board = get_object_or_404(BoardSettlement, pk=board_id)
         if request.user != board.created_by:
             return JsonResponse({'error_message': _('The user does not have permission.')}, status=status.HTTP_400_BAD_REQUEST)
@@ -108,3 +109,22 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
         board.delete()
 
         return JsonResponse({'id': board_id}, safe=False, status=status.HTTP_200_OK)
+
+
+class BoardSettlementsView(ListModelMixin, APIView):
+    filter_backends = [SearchFilter]
+    search_fields = ['created_by__fullname', 'title']
+
+    @swagger_auto_schema(
+        tags=['board'],
+        operation_id='Get BoardSettlementss',
+        operation_summary='✅✅',
+        responses={
+            200: SchemaGenerator.generate_page_schema(BoardSettlementResponseSerializer),
+        },
+    )
+    def get(self, request, *args, **kwargs):
+        """
+        Gets a list of BoardSettlementss at the Institution with the corresponding id
+        """
+        return self.list(BoardSettlement.objects.all(), BoardSettlementResponseSerializer)
