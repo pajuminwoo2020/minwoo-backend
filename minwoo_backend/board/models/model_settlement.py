@@ -9,8 +9,8 @@ logger = logging.getLogger('logger')
 
 
 class BoardSettlement(models.Model, HitCountMixin):
-    title = models.CharField(max_length=255, blank=True)
-    body = models.TextField(blank=True)
+    title = models.CharField(max_length=255, blank=False)
+    body = models.TextField(blank=False)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
     created_by = models.ForeignKey('user.User', null=True, on_delete=models.SET_NULL, related_name='board_settlements')
     created_at = models.DateTimeField(auto_now_add=True)
