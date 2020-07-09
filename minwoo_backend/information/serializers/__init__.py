@@ -1,0 +1,1 @@
+from .serializer_society_about import *

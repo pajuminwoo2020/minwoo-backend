@@ -1,0 +1,1 @@
+from .view_society_about import *
