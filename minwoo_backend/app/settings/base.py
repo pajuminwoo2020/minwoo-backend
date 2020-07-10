@@ -106,9 +106,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LOCALE_DEFAULTS_DIR = os.path.join(os.path.dirname(BASE_DIR), 'locale-defaults')  # default translations from drf
 LOCALE_DIR = os.path.join(os.path.dirname(BASE_DIR), 'locale')
-LOCALE_PATHS = [LOCALE_DEFAULTS_DIR, LOCALE_DIR]
+LOCALE_PATHS = [LOCALE_DIR]
 LANGUAGE_KO_KR = 'ko-KR'
 LANGUAGE_EN_US = 'en-US'
 LANGUAGES = [

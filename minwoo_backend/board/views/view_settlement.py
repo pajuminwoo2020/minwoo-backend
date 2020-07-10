@@ -2,6 +2,7 @@ import logging
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext_lazy as _
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -13,7 +14,7 @@ from board.models import BoardSettlement
 from board.serializers import BoardSettlementResponseSerializer, CreateBoardSettlementRequestSerializer, BoardSettlementRequestSerializer, BoardSettlementWithBodyResponseSerializer
 from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
-from app.common.filters import SearchFilter
+from app.common.filters import SearchFilter, OrderingFilter
 
 logger = logging.getLogger('logger')
 
@@ -112,8 +113,9 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
 
 
 class BoardSettlementsView(ListModelMixin, APIView):
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['created_by__fullname', 'title']
+    ordering_default = ['-created_at']
 
     @swagger_auto_schema(
         tags=['board'],
