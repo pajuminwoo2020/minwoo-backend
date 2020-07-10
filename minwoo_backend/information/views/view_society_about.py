@@ -18,7 +18,7 @@ logger = logging.getLogger('logger')
 
 
 class CreateSocietyAboutView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
 
     @swagger_auto_schema(
         tags=['society_about'],
@@ -33,18 +33,18 @@ class CreateSocietyAboutView(APIView):
         """
         Creates an SocietyAbout
         """
-        serializer = CreateSocietyAboutRequestSerializer(data=request.data, context={'user': request.user})
+        serializer = CreateSocietyAboutRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         society_about = serializer.save()
 
-        return JsonResponse(SocietyAboutResponseSerializer().data, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(SocietyAboutResponseSerializer(society_about).data, safe=False, status=status.HTTP_200_OK)
 
 
 class SocietyAboutView(PermissionMixin, APIView):
     permission_classes = {
         'get': [],
-        'put': [IsAuthenticated],
-        'delete': [IsAuthenticated],
+        'put': [],
+        'delete': [],
     }
 
     @swagger_auto_schema(
@@ -52,7 +52,7 @@ class SocietyAboutView(PermissionMixin, APIView):
         operation_id='Get SocietyAbout',
         operation_summary='✅✅',
         responses={
-            200: SocietyAboutWithBodyResponseSerializer,
+            200: SocietyAboutResponseSerializer,
         },
     )
     def get(self, request, society_about_id, *args, **kwargs):
@@ -60,8 +60,8 @@ class SocietyAboutView(PermissionMixin, APIView):
         Gets the SocietyAbout with the corresponding id
         """
         society_about = get_object_or_404(SocietyAbout, pk=society_about_id)
-
-        return JsonResponse(SocietyAboutWithBodyResponseSerializer(society_about).data, safe=False, status=status.HTTP_200_OK)
+        dummy = SocietyAboutResponseSerializer(society_about).data
+        return JsonResponse(dummy, safe=False, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         tags=['society_about'],
@@ -78,7 +78,7 @@ class SocietyAboutView(PermissionMixin, APIView):
         """
         society_about = get_object_or_404(SocietyAbout, pk=society_about_id)
 
-        serializer = SocietyAboutRequestSerializer(data=request.data, instance=society_about, context={'user': request.user})
+        serializer = SocietyAboutRequestSerializer(data=request.data, instance=society_about)
         serializer.is_valid(raise_exception=True)
         society_about = serializer.save()
 
@@ -101,8 +101,6 @@ class SocietyAboutView(PermissionMixin, APIView):
         """
         Deletes the SocietyAbout with the corresponding id """
         society_about = get_object_or_404(SocietyAbout, pk=society_about_id)
-        if request.user != society_about.created_by:
-            return JsonResponse({'error_message': _('The user does not have permission.')}, status=status.HTTP_400_BAD_REQUEST)
 
         society_about.delete()
 
@@ -110,8 +108,6 @@ class SocietyAboutView(PermissionMixin, APIView):
 
 
 class SocietyAboutsView(ListModelMixin, APIView):
-    filter_backends = [SearchFilter]
-    search_fields = ['name']
 
     @swagger_auto_schema(
         tags=['society_about'],
