@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-10 01:39+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: board/serializers/serializer_settlement.py:36
+#: board/views/view_settlement.py:108
+msgid "The user does not have permission."
+msgstr "유저에게 권한이 없습니다."
+
+#: user/serializers/serializer_user.py:75
+msgid "The user for the info to change is empty"
+msgstr "정보를 변경할 유저가 존재하지 않습니다."
+
+#: user/serializers/serializer_user.py:78
+msgid "The user for the info to change is not active"
+msgstr "정보를 변경할 유저가 활성화되지 않습니다."
+
+#: user/serializers/serializer_user.py:111
+msgid "Incorrect email"
+msgstr "올바르지 않은 계정입니다"
+
+#: user/serializers/serializer_user.py:113
+msgid "Incorrect password"
+msgstr "올바르지 않은 비밀번호입니다"
+
+#: user/serializers/serializer_user.py:115
+msgid "Inactive user"
+msgstr "활성화되지 않은 계정입니다"
+
+#: user/views/view_user.py:32
+msgid "Already logged in"
+msgstr "이미 로그인 되어 있습니다."
