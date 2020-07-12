@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-10 01:39+0000\n"
+"POT-Creation-Date: 2020-07-10 16:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: board/serializers/serializer_image.py:27
+msgid "Each file size cannot exceed 50MB."
+msgstr "파일이 50MB보다 클 수 없습니다."
+
 #: board/serializers/serializer_settlement.py:36
-#: board/views/view_settlement.py:108
+#: board/views/view_settlement.py:104
 msgid "The user does not have permission."
 msgstr "유저에게 권한이 없습니다."
 
