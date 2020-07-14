@@ -5,7 +5,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.urls import reverse
 
-logger = logging.getLogger('quotalogger')
+logger = logging.getLogger('logger')
 
 
 class Image(models.Model):

@@ -34,7 +34,7 @@ class CreateBoardNoticeRequestSerializer(CreateBoardBaseRequestSerializer):
             'thumbnail': Image.objects.filter(pk=thumbnail_pk).first()
         })
 
-        return  super(CreateBoardNoticeRequestSerializer, self).create(validated_data)
+        return super(CreateBoardNoticeRequestSerializer, self).create(validated_data)
 
 
 class BoardNoticeRequestSerializer(BoardBaseRequestSerializer):
