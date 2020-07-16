@@ -10,8 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from hitcount.views import HitCountMixin
 
-from board.models import BoardSettlement
-from board.serializers import BoardSettlementResponseSerializer, CreateBoardSettlementRequestSerializer, BoardSettlementRequestSerializer, BoardSettlementWithBodyResponseSerializer
+from board.models import BoardNotice
+from board.serializers import BoardNoticeResponseSerializer, CreateBoardNoticeRequestSerializer, BoardNoticeRequestSerializer, BoardNoticeWithBodyResponseSerializer
 from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import SearchFilter, OrderingFilter
@@ -19,30 +19,29 @@ from app.common.filters import SearchFilter, OrderingFilter
 logger = logging.getLogger('logger')
 
 
-class CreateBoardSettlementView(APIView):
+class CreateBoardNoticeView(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         tags=['board'],
-        operation_id='Create BoardSettlement',
-        operation_summary='✅✅',
-        request_body=CreateBoardSettlementRequestSerializer,
+        operation_id='Create BoardNotice',
+        request_body=CreateBoardNoticeRequestSerializer,
         responses={
-            200: BoardSettlementResponseSerializer,
+            200: BoardNoticeResponseSerializer,
         },
     )
     def post(self, request, *args, **kwargs):
         """
-        Creates an BoardSettlement
+        Creates an BoardNotice
         """
-        serializer = CreateBoardSettlementRequestSerializer(data=request.data, context={'user': request.user})
+        serializer = CreateBoardNoticeRequestSerializer(data=request.data, context={'user': request.user})
         serializer.is_valid(raise_exception=True)
         board = serializer.save()
 
-        return JsonResponse(BoardSettlementResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(BoardNoticeResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
 
 
-class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
+class BoardNoticeView(PermissionMixin, HitCountMixin, APIView):
     permission_classes = {
         'get': [],
         'put': [IsAuthenticated],
@@ -51,46 +50,43 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
 
     @swagger_auto_schema(
         tags=['board'],
-        operation_id='Get BoardSettlement',
-        operation_summary='✅✅',
+        operation_id='Get BoardNotice',
         responses={
-            200: BoardSettlementWithBodyResponseSerializer,
+            200: BoardNoticeWithBodyResponseSerializer,
         },
     )
     def get(self, request, board_id, *args, **kwargs):
         """
-        Gets the BoardSettlement with the corresponding id
+        Gets the BoardNotice with the corresponding id
         """
-        board = get_object_or_404(BoardSettlement, pk=board_id)
+        board = get_object_or_404(BoardNotice, pk=board_id)
         self.hit_count(request, board.hit_count)
 
-        return JsonResponse(BoardSettlementWithBodyResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(BoardNoticeWithBodyResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         tags=['board'],
-        operation_id='Update BoardSettlement',
-        operation_summary='✅✅',
-        request_body=BoardSettlementRequestSerializer,
+        operation_id='Update BoardNotice',
+        request_body=BoardNoticeRequestSerializer,
         responses={
-            200: BoardSettlementResponseSerializer,
+            200: BoardNoticeResponseSerializer,
         },
     )
     def put(self, request, board_id, *args, **kwargs):
         """
-        Updates the BoardSettlement with the corresponding id
+        Updates the BoardNotice with the corresponding id
         """
-        board = get_object_or_404(BoardSettlement, pk=board_id)
+        board = get_object_or_404(BoardNotice, pk=board_id)
 
-        serializer = BoardSettlementRequestSerializer(data=request.data, instance=board, context={'user': request.user})
+        serializer = BoardNoticeRequestSerializer(data=request.data, instance=board, context={'user': request.user})
         serializer.is_valid(raise_exception=True)
         board = serializer.save()
 
-        return JsonResponse(BoardSettlementResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(BoardNoticeResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         tags=['board'],
-        operation_id='Delete BoardSettlement',
-        operation_summary='✅✅',
+        operation_id='Delete BoardNotice',
         responses={
             200: openapi.Schema(
                 type=openapi.TYPE_OBJECT,
@@ -102,8 +98,9 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
     )
     def delete(self, request, board_id, *args, **kwargs):
         """
-        Deletes the BoardSettlement with the corresponding id """
-        board = get_object_or_404(BoardSettlement, pk=board_id)
+        Deletes the BoardNotice with the corresponding id
+        """
+        board = get_object_or_404(BoardNotice, pk=board_id)
         if request.user != board.created_by:
             return JsonResponse({'error_message': _('The user does not have permission.')}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -112,21 +109,20 @@ class BoardSettlementView(PermissionMixin, HitCountMixin, APIView):
         return JsonResponse({'id': board_id}, safe=False, status=status.HTTP_200_OK)
 
 
-class BoardSettlementsView(ListModelMixin, APIView):
+class BoardNoticesView(ListModelMixin, APIView):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['created_by__fullname', 'title']
     ordering_default = ['-created_at']
 
     @swagger_auto_schema(
         tags=['board'],
-        operation_id='Get BoardSettlementss',
-        operation_summary='✅✅',
+        operation_id='Get BoardNotices',
         responses={
-            200: SchemaGenerator.generate_page_schema(BoardSettlementResponseSerializer),
+            200: SchemaGenerator.generate_page_schema(BoardNoticeResponseSerializer),
         },
     )
     def get(self, request, *args, **kwargs):
         """
-        Gets a list of BoardSettlementss at the Institution with the corresponding id
+        Gets a list of BoardNotices at the Institution with the corresponding id
         """
-        return self.list(BoardSettlement.objects.all(), BoardSettlementResponseSerializer)
+        return self.list(BoardNotice.objects.all(), BoardNoticeResponseSerializer)
