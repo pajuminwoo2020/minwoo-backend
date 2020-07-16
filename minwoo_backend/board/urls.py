@@ -34,6 +34,11 @@ urlpatterns = [
     path('board/member_space/<int:board_id>', views.BoardMemberSpaceView.as_view(), name='board_member_space'),
     path('board/member_spaces', views.BoardMemberSpacesView.as_view(), name='board_member_spaces'),
 
+    # BoardSocietyActivity
+    path('board/society_activity', views.CreateBoardSocietyActivityView.as_view(), name='board_society_activity_create'),
+    path('board/society_activity/<int:board_id>', views.BoardSocietyActivityView.as_view(), name='board_society_activity'),
+    path('board/society_activities', views.BoardSocietyActivitysView.as_view(), name='board_society_activities'),
+
     # BoardNewsletter
     path('board/newsletter', views.CreateBoardNewsletterView.as_view(), name='board_newsletter_create'),
     path('board/newsletter/<int:board_id>', views.BoardNewsletterView.as_view(), name='board_newsletter'),

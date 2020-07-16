@@ -8,5 +8,6 @@ from .serializer_board_member_space import *
 from .serializer_board_newsletter import *
 from .serializer_board_gallery import *
 from .serializer_board_drive import *
+from .serializer_board_society_activity import *
 from .serializer_image import *
 from .serializer_file import *
