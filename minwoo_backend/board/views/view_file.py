@@ -60,8 +60,6 @@ class UploadFileView(APIView):
 
 
 class FileView(APIView):
-    permission_classes = [IsAuthenticated]
-
     @swagger_auto_schema(
         tags=['file'],
         operation_id='Get File',
