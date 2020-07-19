@@ -7,16 +7,16 @@ from django.urls import reverse
 
 from user.serializers import UserResponseSerializer
 from board.serializers import BoardBaseRequestSerializer, BoardBaseResponseSerializer, CreateBoardBaseRequestSerializer, get_image_pk
-from board.models import BoardNotice, Image
+from board.models import BoardActivityMember, Image
 
 logger = logging.getLogger('logger')
 
 
-class CreateBoardNoticeRequestSerializer(CreateBoardBaseRequestSerializer):
+class CreateBoardActivityMemberRequestSerializer(CreateBoardBaseRequestSerializer):
     thumbnail_source = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     class Meta(CreateBoardBaseRequestSerializer.Meta):
-        model = BoardNotice
+        model = BoardActivityMember
         fields = ['thumbnail_source'] + CreateBoardBaseRequestSerializer.Meta.fields
 
     def create(self, validated_data):
@@ -25,14 +25,13 @@ class CreateBoardNoticeRequestSerializer(CreateBoardBaseRequestSerializer):
             'thumbnail': Image.objects.filter(pk=thumbnail_pk).first()
         })
 
-        return super(CreateBoardNoticeRequestSerializer, self).create(validated_data)
+        return super(CreateBoardActivityMemberRequestSerializer, self).create(validated_data)
 
-
-class BoardNoticeRequestSerializer(BoardBaseRequestSerializer):
+class BoardActivityMemberRequestSerializer(BoardBaseRequestSerializer):
     thumbnail_source = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     class Meta(BoardBaseRequestSerializer.Meta):
-        model = BoardNotice
+        model = BoardActivityMember
         fields = ['thumbnail_source'] + BoardBaseRequestSerializer.Meta.fields
 
     def update(self, instance, validated_data):
@@ -41,14 +40,14 @@ class BoardNoticeRequestSerializer(BoardBaseRequestSerializer):
             'thumbnail': Image.objects.filter(pk=thumbnail_pk).first()
         })
 
-        return super(BoardNoticeRequestSerializer, self).update(instance, validated_data)
+        return super(BoardActivityMemberRequestSerializer, self).update(instance, validated_data)
 
 
-class BoardNoticeResponseSerializer(BoardBaseResponseSerializer):
+class BoardActivityMemberResponseSerializer(BoardBaseResponseSerializer):
     thumbnail_source = serializers.SerializerMethodField()
 
     class Meta(BoardBaseResponseSerializer.Meta):
-        model = BoardNotice
+        model = BoardActivityMember
         fields = ['thumbnail_source'] + BoardBaseResponseSerializer.Meta.fields
 
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
@@ -59,6 +58,6 @@ class BoardNoticeResponseSerializer(BoardBaseResponseSerializer):
         return None
 
 
-class BoardNoticeWithBodyResponseSerializer(BoardNoticeResponseSerializer):
-    class Meta(BoardNoticeResponseSerializer.Meta):
-        fields = ['body'] + BoardNoticeResponseSerializer.Meta.fields
+class BoardActivityMemberWithBodyResponseSerializer(BoardActivityMemberResponseSerializer):
+    class Meta(BoardActivityMemberResponseSerializer.Meta):
+        fields = ['body'] + BoardActivityMemberResponseSerializer.Meta.fields

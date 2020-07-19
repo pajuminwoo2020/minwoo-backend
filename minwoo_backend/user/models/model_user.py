@@ -69,6 +69,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'userid'
     REQUIRED_FIELDS = []
 
+    class Meta:
+        verbose_name_plural = '사용자 관리'
+
     def __str__(self):
         return f'[pk={self.pk}, userid={self.userid}]'
 

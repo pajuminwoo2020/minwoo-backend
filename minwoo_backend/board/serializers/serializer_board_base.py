@@ -1,4 +1,5 @@
 import logging
+import re
 
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
@@ -9,6 +10,17 @@ from user.serializers import UserResponseSerializer
 from board.models import File
 
 logger = logging.getLogger('logger')
+
+
+def get_image_pk(path):
+    if not path:
+        return None
+
+    thumbnail_pk_list = re.findall(r'\d+', path)
+    if thumbnail_pk_list:
+        return thumbnail_pk_list[0]
+
+    return None
 
 
 class CreateBoardBaseRequestSerializer(serializers.ModelSerializer):
