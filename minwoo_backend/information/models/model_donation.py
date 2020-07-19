@@ -15,6 +15,7 @@ class Donation(models.Model):
     email = models.CharField(max_length=255, blank=False)
     bank_account = models.CharField(max_length=255, blank=False)
     address = models.CharField(max_length=255, blank=True, null=True)
+    memo = models.CharField(max_length=255, blank=True, null=True)
     is_checked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

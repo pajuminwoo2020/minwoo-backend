@@ -11,10 +11,10 @@ logger = logging.getLogger('logger')
 class CreateDonationRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donation
-        fields = ['donation_type', 'price', 'period', 'user_name', 'birthday', 'phone', 'email', 'bank_account', 'address']
+        fields = ['donation_type', 'price', 'period', 'user_name', 'birthday', 'phone', 'email', 'bank_account', 'address', 'memo']
 
 
 class DonationResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donation
-        fields = ['donation_type', 'price', 'period', 'user_name', 'birthday', 'phone', 'email', 'bank_account', 'address']
+        fields = ['donation_type', 'price', 'period', 'user_name', 'birthday', 'phone', 'email', 'bank_account', 'address', 'memo']
