@@ -7,7 +7,7 @@ from django.db.models.sql.constants import ORDER_PATTERN
 from django.utils.encoding import force_str
 from rest_framework.compat import coreapi, coreschema
 from rest_framework.compat import distinct
-from rest_framework.filters import SearchFilter as BaseSearchFilter, OrderingFilter as BaseOrderingFilter
+from rest_framework.filters import SearchFilter as BaseSearchFilter, OrderingFilter as BaseOrderingFilter, BaseFilterBackend
 
 
 class SearchFilter(BaseSearchFilter):
@@ -144,6 +144,39 @@ class OrderingFilter(BaseOrderingFilter):
                 schema=coreschema.String(
                     title=force_str(self.ordering_title),
                     description=force_str(self.ordering_description)
+                )
+            )
+        ]
+
+
+class CategoryFilter(BaseFilterBackend):
+    filter_param = 'category'
+    def filter_queryset(self, request, queryset, view):
+        category_param = request.GET.get('category')
+        if not category_param:
+            return queryset
+        try:
+            queryset = queryset.filter(category=category_param)
+        except Exception as e:
+            pass
+
+        return queryset
+
+    def get_schema_fields(self, view):
+        """
+        swagger에 보여주기 위한 설정
+        """
+        assert coreapi is not None, 'coreapi must be installed to use `get_schema_fields()`'
+        assert coreschema is not None, 'coreschema must be installed to use `get_schema_fields()`'
+
+        return [
+            coreapi.Field(
+                name=self.filter_param,
+                required=False,
+                location='query',
+                schema=coreschema.String(
+                    title=force_str('A category filter'),
+                    description=force_str('Category filter')
                 )
             )
         ]

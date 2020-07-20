@@ -10,6 +10,7 @@ logger = logging.getLogger('logger')
 class BoardAction(BoardBase):
     created_by = models.ForeignKey('user.User', null=True, on_delete=models.SET_NULL, related_name='board_actions')
     thumbnail = models.ForeignKey('board.Image', null=True, on_delete=models.SET_NULL, related_name='board_actions')
+    category = models.ForeignKey('board.Category', null=True, on_delete=models.SET_NULL, related_name='board_actions')
 
     class Meta:
         ordering = ['created_at']

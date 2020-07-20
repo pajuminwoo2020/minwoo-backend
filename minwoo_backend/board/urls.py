@@ -1,7 +1,6 @@
 from django.urls import path
 
-from . import views
-
+from . import views 
 app_name = 'board'
 urlpatterns = [
     # BoardActivityMember
@@ -59,4 +58,7 @@ urlpatterns = [
     path('board/image/<int:image_id>', views.ImageView.as_view(), name='image'),
     path('board/file', views.UploadFileView.as_view(), name='file_upload'),
     path('board/file/<int:file_id>', views.FileView.as_view(), name='file'),
+
+    # Category
+    path('board/categories/select/<str:board_type>', views.SelectCategoriesView.as_view(), name='category_select'),
 ]

@@ -8,7 +8,8 @@ logger = logging.getLogger('logger')
 
 
 class BoardSocietyActivity(BoardBase):
-    created_by = models.ForeignKey('user.User', null=True, on_delete=models.SET_NULL, related_name='board_society_activitys')
+    created_by = models.ForeignKey('user.User', null=True, on_delete=models.SET_NULL, related_name='board_society_activities')
+    category = models.ForeignKey('board.Category', null=True, on_delete=models.SET_NULL, related_name='board_society_activities')
 
     class Meta:
         ordering = ['created_at']

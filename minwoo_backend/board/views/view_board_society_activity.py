@@ -14,7 +14,7 @@ from board.models import BoardSocietyActivity
 from board.serializers import BoardSocietyActivityResponseSerializer, CreateBoardSocietyActivityRequestSerializer, BoardSocietyActivityRequestSerializer, BoardSocietyActivityWithBodyResponseSerializer
 from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
-from app.common.filters import SearchFilter, OrderingFilter
+from app.common.filters import SearchFilter, OrderingFilter, CategoryFilter
 
 logger = logging.getLogger('logger')
 
@@ -110,7 +110,7 @@ class BoardSocietyActivityView(PermissionMixin, HitCountMixin, APIView):
 
 
 class BoardSocietyActivitysView(ListModelMixin, APIView):
-    filter_backends = [SearchFilter, OrderingFilter]
+    filter_backends = [CategoryFilter, SearchFilter, OrderingFilter]
     search_fields = ['created_by__fullname', 'title']
     ordering_default = ['-created_at']
 

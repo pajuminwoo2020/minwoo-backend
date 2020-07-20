@@ -14,7 +14,7 @@ from board.models import BoardNotice
 from board.serializers import BoardNoticeResponseSerializer, CreateBoardNoticeRequestSerializer, BoardNoticeRequestSerializer, BoardNoticeWithBodyResponseSerializer
 from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
-from app.common.filters import SearchFilter, OrderingFilter
+from app.common.filters import SearchFilter, OrderingFilter, CategoryFilter
 
 logger = logging.getLogger('logger')
 
@@ -110,7 +110,7 @@ class BoardNoticeView(PermissionMixin, HitCountMixin, APIView):
 
 
 class BoardNoticesView(ListModelMixin, APIView):
-    filter_backends = [SearchFilter, OrderingFilter]
+    filter_backends = [CategoryFilter, SearchFilter, OrderingFilter]
     search_fields = ['created_by__fullname', 'title']
     ordering_default = ['-created_at']
 
