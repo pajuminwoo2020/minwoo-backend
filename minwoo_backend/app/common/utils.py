@@ -1,3 +1,16 @@
+import base64
+import json
+import os
+import pathlib
+
+import boto3
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.core.mail import EmailMultiAlternatives
+from sendgrid import Mail, TrackingSettings, ClickTracking, OpenTracking, Email, SendGridAPIClient, Attachment, FileContent, FileName, Disposition, FileType
+#from loggedemail.models import LoggedEmailManager
+
+
 from collections import OrderedDict
 
 from drf_yasg import openapi
@@ -6,9 +19,6 @@ from drf_yasg.openapi import ReferenceResolver
 from drf_yasg.utils import filter_none
 
 from app.common.logger import Logger
-
-logger = Logger.get_logger()
-
 
 class SchemaGenerator:
     @staticmethod

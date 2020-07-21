@@ -3,12 +3,17 @@ import logging
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.db import models
 from django.utils import translation
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
 
 logger = logging.getLogger('logger')
 
+# password_reset_token = PasswordResetTokenGenerator()
 
 class UserManager(BaseUserManager):
     def create_user(self, userid, fullname, password, is_active=False, fullname_en=None):

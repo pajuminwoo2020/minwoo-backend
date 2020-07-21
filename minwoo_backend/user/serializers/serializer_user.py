@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
+
+
 logger = logging.getLogger('logger')
 
 
@@ -51,7 +53,7 @@ class UserCreateRequestSerializer(serializers.ModelSerializer):
             fullname=validated_data.get('fullname'),
             fullname_en=validated_data.get('fullname_en'),
             password=validated_data.get('password'),
-            is_active=True,
+            is_active=False,
         )
 
     def update(self, instance, validated_data):
@@ -121,3 +123,27 @@ class UserLoginRequestSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         pass
+
+class PasswordResetRequestSerializer(serializers.ModelSerializer):
+    userid = serializers.EmailField(required=True, help_text='The email of the user account', trim_whitespace=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ['userid']
+        extra_kwargs = {
+            'userid': {'required': True},
+        }
+
+    def validate(self, data):
+        userid = data.get('userid', None)
+
+        user = get_user_model().objects.filter(userid=userid).first()
+        if user is None:
+            raise serializers.ValidationError({'userid': _('Incorrect email')})
+        if user and not user.is_active:
+            raise serializers.ValidationError({'userid': _('Inactive user')})
+
+        return data
+
+    def get_userid(self):
+            return self.validated_data.get('userid')
