@@ -22,4 +22,8 @@ urlpatterns = [
     path('society/about/create', views.CreateSocietyAboutView.as_view(), name='society_about_create'),
     path('society/about/<int:society_about_id>', views.SocietyAboutView.as_view(), name='society_about'),
     path('society/abouts', views.SocietyAboutsView.as_view(), name='society_abouts'),
+
+    # People
+    path('intro/location', views.IntroLocationView.as_view(), name='intro_location'),
+    path('intro/people', views.PeopleView.as_view(), name='intro_people'),
 ]
