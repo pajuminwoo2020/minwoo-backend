@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from information.models import Banner, Donation, Calendar
+from information.models import Banner, Donation, Calendar, InformationHistory
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -8,10 +8,13 @@ class DonationAdmin(admin.ModelAdmin):
     list_filter = ['is_checked']
     search_fields = ['user_name', 'email', 'phone']
 
+
 class CalendarAdmin(admin.ModelAdmin):
     list_display = ['id', 'schedule_name', 'schedule_from', 'schedule_to']
     search_fields = ['schedule_name']
 
+
 admin.site.register(Banner)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Donation, DonationAdmin)
+admin.site.register(InformationHistory)

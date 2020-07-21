@@ -14,4 +14,7 @@ urlpatterns = [
     # Calendar
     path('information/calendars/all', views.CalendarsAllView.as_view(), name='calendars_all'),
     path('information/calendars', views.CalendarsView.as_view(), name='calendars'),
+
+    # History
+    path('information/histories', views.InformationHistoriesView.as_view(), name='information_histories'),
 ]
