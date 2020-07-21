@@ -47,20 +47,22 @@ class UserManager(BaseUserManager):
             fullname='Admin',
             is_active=True,
         )
-        user.is_admin = True
+        user.is_superuser = True
         user.save(using=self._db)
 
         return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    GROUP_STAFF = "스태프"
+    GROUP_ADMIN = "관리자"
+
     userid = models.EmailField(max_length=255, unique=True, blank=False)
     fullname = models.CharField(max_length=255, blank=False)
     fullname_en = models.CharField(max_length=255, null=True, blank=True)
     language = models.CharField(max_length=5, null=False, blank=False, choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
     timezone = models.CharField(max_length=255, null=False, blank=False, choices=settings.TIME_ZONES, default=settings.TIME_ZONE_ASIA_SEOUL)
     is_active = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -110,12 +112,26 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return self
 
+    def is_group_admin(self):
+        for group in self.groups.all():
+            if group.name == User.GROUP_ADMIN:
+                return True
+
+        return False
+
+    def is_group_staff(self):
+        for group in self.groups.all():
+            if group.name == User.GROUP_STAFF:
+                return True
+
+        return False
+
     def has_perm(self, perm, obj=None):  # used by Django's admin
-        return True
+        return self.is_group_admin()
 
     def has_module_perms(self, app_label):  # used by Django's admin
-        return True
+        return self.is_group_admin()
 
     @property
     def is_staff(self):  # used by Django's admin
-        return self.is_admin
+        return self.is_group_admin()

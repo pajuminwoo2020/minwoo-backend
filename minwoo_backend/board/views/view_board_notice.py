@@ -12,6 +12,7 @@ from hitcount.views import HitCountMixin
 
 from board.models import BoardNotice
 from board.serializers import BoardNoticeResponseSerializer, CreateBoardNoticeRequestSerializer, BoardNoticeRequestSerializer, BoardNoticeWithBodyResponseSerializer
+from board.permissions import  BoardManagementPermission
 from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import SearchFilter, OrderingFilter, CategoryFilter
@@ -20,7 +21,7 @@ logger = logging.getLogger('logger')
 
 
 class CreateBoardNoticeView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, BoardManagementPermission]
 
     @swagger_auto_schema(
         tags=['board'],
