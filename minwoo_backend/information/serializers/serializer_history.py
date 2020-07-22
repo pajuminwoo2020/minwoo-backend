@@ -13,5 +13,3 @@ class HistoryResponseSerializer(serializers.Serializer):
 
     class Meta:
         fields = ['memo', 'date_at']
-
-

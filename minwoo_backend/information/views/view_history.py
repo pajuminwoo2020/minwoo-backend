@@ -39,7 +39,7 @@ class MainHistoriesView(APIView):
         tags=['information'],
         operation_id='Get Histories of Minwoo',
         responses={
-            200: SchemaGenerator.generate_page_schema(HistoryResponseSerializer),
+            200: openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.TYPE_OBJECT, description='{year: "", children: []'),
         },
     )
     def get(self, request, *args, **kwargs):

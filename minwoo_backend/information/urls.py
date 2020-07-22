@@ -23,6 +23,5 @@ urlpatterns = [
     path('society/abouts', views.SocietyAboutsView.as_view(), name='society_abouts'),
 
     # People
-    path('intro/location', views.IntroLocationView.as_view(), name='intro_location'),
     path('intro/people', views.PeopleView.as_view(), name='intro_people'),
 ]
