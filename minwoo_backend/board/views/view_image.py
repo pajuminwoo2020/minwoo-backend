@@ -12,6 +12,7 @@ from rest_framework.parsers import MultiPartParser
 
 from board.models import Image
 from board.serializers import UploadImageRequestSerializer, ImageResponseSerializer
+from board.permissions import  BoardManagementPermission
 
 logger = logging.getLogger('logger')
 
@@ -34,7 +35,7 @@ class ImageView(APIView):
 
 
 class UploadImageView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, BoardManagementPermission]
     parser_classes = [MultiPartParser]
 
     @swagger_auto_schema(

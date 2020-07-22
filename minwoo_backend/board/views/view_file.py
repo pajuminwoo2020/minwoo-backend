@@ -14,6 +14,7 @@ from rest_framework.parsers import MultiPartParser
 
 from board.models import File
 from board.serializers import UploadFileRequestSerializer, FileResponseSerializer
+from board.permissions import  BoardManagementPermission
 
 logger = logging.getLogger('logger')
 
@@ -37,7 +38,7 @@ def _create_file_response(file_instance):
 
 
 class UploadFileView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, BoardManagementPermission]
     parser_classes = [MultiPartParser]
 
     @swagger_auto_schema(

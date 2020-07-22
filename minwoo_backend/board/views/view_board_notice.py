@@ -45,8 +45,8 @@ class CreateBoardNoticeView(APIView):
 class BoardNoticeView(PermissionMixin, HitCountMixin, APIView):
     permission_classes = {
         'get': [],
-        'put': [IsAuthenticated],
-        'delete': [IsAuthenticated],
+        'put': [IsAuthenticated, BoardManagementPermission],
+        'delete': [IsAuthenticated, BoardManagementPermission],
     }
 
     @swagger_auto_schema(

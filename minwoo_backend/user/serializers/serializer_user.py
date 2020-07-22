@@ -62,14 +62,10 @@ class UserCreateRequestSerializer(serializers.ModelSerializer):
 
 class UserRequestSerializer(serializers.ModelSerializer):
     fullname_local = serializers.CharField(source='fullname', required=False, trim_whitespace=True)
-    language = serializers.ChoiceField(choices=settings.LANGUAGES, required=False)
 
     class Meta:
         model = get_user_model()
-        fields = ['userid', 'fullname_local', 'fullname_en', 'language', 'timezone']
-        extra_kwargs = {
-            'userid': {'required': False},
-        }
+        fields = ['fullname_local']
 
     def validate(self, data):
         user = self.instance
@@ -79,8 +75,6 @@ class UserRequestSerializer(serializers.ModelSerializer):
         if not user.is_active:
             raise serializers.ValidationError(_('The user for the info to change is not active'))
 
-        userid = data.get('userid', None)
-
         return data
 
     def create(self, validated_data):
@@ -89,14 +83,19 @@ class UserRequestSerializer(serializers.ModelSerializer):
 
 class UserResponseSerializer(serializers.ModelSerializer):
     fullname = serializers.SerializerMethodField()
+    groups = serializers.SerializerMethodField()
 
     class Meta:
         model = get_user_model()
-        fields = ['userid', 'fullname', 'fullname_en', 'language', 'timezone', 'last_login']
+        fields = ['userid', 'fullname', 'language', 'timezone', 'last_login', 'groups']
 
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_fullname(self, obj):
         return obj.get_fullname()
+
+    @swagger_serializer_method(serializer_or_field=serializers.CharField)
+    def get_groups(self, obj):
+        return obj.get_groups()
 
 
 class UserLoginRequestSerializer(serializers.Serializer):
@@ -124,6 +123,7 @@ class UserLoginRequestSerializer(serializers.Serializer):
     def create(self, validated_data):
         pass
 
+
 class PasswordResetRequestSerializer(serializers.ModelSerializer):
     userid = serializers.EmailField(required=True, help_text='The email of the user account', trim_whitespace=True)
 
@@ -147,3 +147,34 @@ class PasswordResetRequestSerializer(serializers.ModelSerializer):
 
     def get_userid(self):
             return self.validated_data.get('userid')
+
+
+class PasswordChangeRequestSerializer(serializers.ModelSerializer):
+    password_old = serializers.CharField(write_only=True, required=True)
+    password_new = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ['password_old', 'password_new']
+
+    def validate(self, data):
+        user = self.instance
+
+        if user is None:
+            raise serializers.ValidationError(_('The user for the password to change is empty'))
+
+        if not user.check_password(data.get('password_old', None)):
+            raise serializers.ValidationError({'password_old': _('Incorrect password')})
+
+        _validate_password(data['password_new'], 'password_new')
+
+        return data
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data.get('password_new'))
+        instance.save()
+
+        return instance
+
+    def create(self, validated_data):
+        raise NotImplementedError

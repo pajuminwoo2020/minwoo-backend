@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from user.serializers import UserCreateRequestSerializer, UserRequestSerializer, UserResponseSerializer, UserLoginRequestSerializer, PasswordResetRequestSerializer
+from user.serializers import UserCreateRequestSerializer, UserRequestSerializer, UserResponseSerializer, UserLoginRequestSerializer, PasswordResetRequestSerializer, PasswordChangeRequestSerializer
 from app.common.mixins import PermissionMixin
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -127,7 +127,7 @@ class UserLogoutView(APIView):
         """
         user_id = request.user.id
         logout(request)
-        
+
         return JsonResponse({'id': user_id}, safe=False, status=status.HTTP_200_OK)
 
 
@@ -150,7 +150,7 @@ class PasswordResetView(APIView):
          """
          password_reset_serializer = PasswordResetRequestSerializer(data=request.data)
          password_reset_serializer.is_valid(raise_exception=True)
-           
+
          # send reset email
          #profile = password_reset_serializer.get_profile()
          #if profile is None:
@@ -196,7 +196,8 @@ class PasswordResetView(APIView):
         #  )
 
         #어떤 response보내줘야 하는지??
-         return JsonResponse(UserResponseSerializer(userid, context={'request': request}).data, safe=False, status=status.HTTP_200_OK)
+         return JsonResponse(UserResponseSerializer(None, context={'request': request}).data, safe=False, status=status.HTTP_200_OK)
+
 
 class UserView(PermissionMixin, APIView):
     permission_classes = {
@@ -238,3 +239,30 @@ class UserView(PermissionMixin, APIView):
         user.activate_language(request)
 
         return JsonResponse(UserResponseSerializer(user, context={'request': request}).data, safe=False, status=status.HTTP_200_OK)
+
+
+class PasswordChangeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        tags=['user'],
+        operation_id='Password Change (whiled logged in)',
+        operation_summary='✅✅',
+        request_body=PasswordChangeRequestSerializer,
+        responses={
+            200: UserResponseSerializer,
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        """
+        Changes the requesting User's password.
+        """
+        user = request.user
+        password_reset_serializer = PasswordChangeRequestSerializer(data=request.data, instance=user)
+        password_reset_serializer.is_valid(raise_exception=True)
+        password_reset_serializer.save()
+
+        # prevent the password change from logging out the session
+        update_session_auth_hash(request, user)
+
+        return JsonResponse(UserResponseSerializer(user).data, safe=False, status=status.HTTP_200_OK)

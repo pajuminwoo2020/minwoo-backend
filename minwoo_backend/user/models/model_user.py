@@ -140,3 +140,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):  # used by Django's admin
         return self.is_group_admin()
+
+    def get_groups(self):
+        group_list = []
+        for group in self.groups.all():
+            group_list.append(group.name)
+
+        return group_list

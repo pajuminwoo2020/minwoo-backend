@@ -12,6 +12,7 @@ from hitcount.views import HitCountMixin
 
 from board.models import BoardAction
 from board.serializers import BoardActionResponseSerializer, CreateBoardActionRequestSerializer, BoardActionRequestSerializer, BoardActionWithBodyResponseSerializer
+from board.permissions import  BoardManagementPermission
 from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import SearchFilter, OrderingFilter, CategoryFilter
@@ -20,7 +21,7 @@ logger = logging.getLogger('logger')
 
 
 class CreateBoardActionView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, BoardManagementPermission]
 
     @swagger_auto_schema(
         tags=['board'],
@@ -44,8 +45,8 @@ class CreateBoardActionView(APIView):
 class BoardActionView(PermissionMixin, HitCountMixin, APIView):
     permission_classes = {
         'get': [],
-        'put': [IsAuthenticated],
-        'delete': [IsAuthenticated],
+        'put': [IsAuthenticated, BoardManagementPermission],
+        'delete': [IsAuthenticated, BoardManagementPermission],
     }
 
     @swagger_auto_schema(

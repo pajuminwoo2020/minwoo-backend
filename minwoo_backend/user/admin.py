@@ -14,11 +14,7 @@ class UserAdmin(admin.ModelAdmin):
     exclude = ['user_permissions', 'fullname_en', 'language', 'timezone', 'is_superuser', 'password', 'last_login']
 
     def group(self, obj):
-        group_list = []
-        for group in obj.groups.all():
-            group_list.append(group.name)
-
-        return group_list
+        return obj.get_groups();
 
 
 admin.site.register(User, UserAdmin)
