@@ -16,7 +16,8 @@ urlpatterns = [
     path('information/calendars', views.CalendarsView.as_view(), name='calendars'),
 
     # History
-    path('information/histories', views.InformationHistoriesView.as_view(), name='information_histories'),
+    path('information/main/histories', views.MainHistoriesView.as_view(), name='information_main_histories'),
+    path('information/affiliate/histories', views.AffiliateHistoriesView.as_view(), name='information_affiliate_histories'),
 
     # SocietyAbout
     path('society/about/create', views.CreateSocietyAboutView.as_view(), name='society_about_create'),

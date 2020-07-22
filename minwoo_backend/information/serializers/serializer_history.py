@@ -1,16 +1,17 @@
 import logging
 
-from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
-from information.models import InformationHistory
+from information.models import HistoryBase
 
 logger = logging.getLogger('logger')
 
-class InformationHistoryResponseSerializer(serializers.ModelSerializer):
+
+class HistoryResponseSerializer(serializers.Serializer):
+    memo = serializers.CharField()
+    date_at = serializers.DateField()
 
     class Meta:
-        model = InformationHistory
-        fields = ['id', 'year', 'body']
+        fields = ['memo', 'date_at']
 
 

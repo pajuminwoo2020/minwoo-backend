@@ -1,21 +1,28 @@
 import logging
 
-from hitcount.models import HitCountMixin, HitCount
-from django.db import models, transaction
-from django.contrib.contenttypes.fields import GenericRelation
-from django.db.models import Q
+from django.db import models
 
 logger = logging.getLogger('logger')
 
 
-class InformationHistory(models.Model, HitCountMixin):
-    kind = models.IntegerField(default=0)
-    year = models.IntegerField()
-    body = models.TextField(blank=False)
+class HistoryBase(models.Model):
+    memo = models.CharField(max_length=255, blank=False)
+    date_at = models.DateField()
 
     class Meta:
-        ordering = ['year']
+        abstract = True
+        ordering = ['-date_at']
         verbose_name_plural = '연혁'
 
     def __str__(self):
-        return f'[pk={self.pk}, kind={self.kind}, year={self.year}]'
+        return f'[pk={self.pk}, memo={self.memo}, date_at={self.date_at}]'
+
+
+class HistoryMain(HistoryBase):
+    class Meta:
+        verbose_name_plural = '민우회 연혁'
+
+
+class HistoryAffiliate(HistoryBase):
+    class Meta:
+        verbose_name_plural = '성폭력상담소 연혁'

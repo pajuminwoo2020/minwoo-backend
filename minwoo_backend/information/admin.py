@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from information.models import Banner, Donation, Calendar, InformationHistory
+from information.models import Banner, Donation, Calendar, HistoryMain, HistoryAffiliate
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -14,7 +14,12 @@ class CalendarAdmin(admin.ModelAdmin):
     search_fields = ['schedule_name']
 
 
+class HistoryAdmin(admin.ModelAdmin):
+    ordering = ('-date_at', )
+
+
 admin.site.register(Banner)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Donation, DonationAdmin)
-admin.site.register(InformationHistory)
+admin.site.register(HistoryMain, HistoryAdmin)
+admin.site.register(HistoryAffiliate, HistoryAdmin)

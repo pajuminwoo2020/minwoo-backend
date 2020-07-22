@@ -2,17 +2,11 @@ import base64
 import json
 import os
 import pathlib
+from collections import OrderedDict
 
-import boto3
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMultiAlternatives
-from sendgrid import Mail, TrackingSettings, ClickTracking, OpenTracking, Email, SendGridAPIClient, Attachment, FileContent, FileName, Disposition, FileType
-#from loggedemail.models import LoggedEmailManager
-
-
-from collections import OrderedDict
-
 from drf_yasg import openapi
 from drf_yasg.inspectors import ViewInspector
 from drf_yasg.openapi import ReferenceResolver
