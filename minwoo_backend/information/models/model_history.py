@@ -12,7 +12,6 @@ class HistoryBase(models.Model):
     class Meta:
         abstract = True
         ordering = ['-date_at']
-        verbose_name_plural = '연혁'
 
     def __str__(self):
         return f'[pk={self.pk}, memo={self.memo}, date_at={self.date_at}]'

@@ -9,106 +9,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from information.models import SocietyAbout
-from information.serializers import SocietyAboutResponseSerializer, CreateSocietyAboutRequestSerializer, SocietyAboutRequestSerializer, SocietyAboutWithBodyResponseSerializer
-from app.common.mixins import PermissionMixin, ListModelMixin
+from information.serializers import SocietyAboutResponseSerializer
+from app.common.mixins import ListModelMixin
 from app.common.utils import SchemaGenerator
-from app.common.filters import SearchFilter
 
 logger = logging.getLogger('logger')
 
 
-class CreateSocietyAboutView(APIView):
-    permission_classes = []
-
-    @swagger_auto_schema(
-        tags=['society_about'],
-        operation_id='Create Society About',
-        operation_summary='✅✅',
-        request_body=CreateSocietyAboutRequestSerializer,
-        responses={
-            200: SocietyAboutResponseSerializer,
-        },
-    )
-    def post(self, request, *args, **kwargs):
-        """
-        Creates an SocietyAbout
-        """
-        serializer = CreateSocietyAboutRequestSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        society_about = serializer.save()
-
-        return JsonResponse(SocietyAboutResponseSerializer(society_about).data, safe=False, status=status.HTTP_200_OK)
-
-
-class SocietyAboutView(PermissionMixin, APIView):
-    permission_classes = {
-        'get': [],
-        'put': [],
-        'delete': [],
-    }
-
-    @swagger_auto_schema(
-        tags=['society_about'],
-        operation_id='Get SocietyAbout',
-        operation_summary='✅✅',
-        responses={
-            200: SocietyAboutResponseSerializer,
-        },
-    )
-    def get(self, request, society_about_id, *args, **kwargs):
-        """
-        Gets the SocietyAbout with the corresponding id
-        """
-        society_about = get_object_or_404(SocietyAbout, pk=society_about_id)
-        dummy = SocietyAboutResponseSerializer(society_about).data
-        return JsonResponse(dummy, safe=False, status=status.HTTP_200_OK)
-
-    @swagger_auto_schema(
-        tags=['society_about'],
-        operation_id='Update SocietyAbout',
-        operation_summary='✅✅',
-        request_body=SocietyAboutRequestSerializer,
-        responses={
-            200: SocietyAboutResponseSerializer,
-        },
-    )
-    def put(self, request, society_about_id, *args, **kwargs):
-        """
-        Updates the SocietyAbout with the corresponding id
-        """
-        society_about = get_object_or_404(SocietyAbout, pk=society_about_id)
-
-        serializer = SocietyAboutRequestSerializer(data=request.data, instance=society_about)
-        serializer.is_valid(raise_exception=True)
-        society_about = serializer.save()
-
-        return JsonResponse(SocietyAboutResponseSerializer(society_about).data, safe=False, status=status.HTTP_200_OK)
-
-    @swagger_auto_schema(
-        tags=['society_about'],
-        operation_id='Delete SocietyAbout',
-        operation_summary='✅✅',
-        responses={
-            200: openapi.Schema(
-                type=openapi.TYPE_OBJECT,
-                properties={
-                    'id': openapi.Schema(type=openapi.TYPE_INTEGER),
-                },
-            ),
-        },
-    )
-    def delete(self, request, society_about_id, *args, **kwargs):
-        """
-        Deletes the SocietyAbout with the corresponding id """
-        society_about = get_object_or_404(SocietyAbout, pk=society_about_id)
-
-        society_about.delete()
-
-        return JsonResponse({'id': society_about_id}, safe=False, status=status.HTTP_200_OK)
-
-
 class SocietyAboutsView(ListModelMixin, APIView):
-
     @swagger_auto_schema(
         tags=['society_about'],
         operation_id='Get SocietyAbouts',

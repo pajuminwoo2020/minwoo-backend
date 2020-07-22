@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from information.models import Banner, Donation, Calendar, HistoryMain, HistoryAffiliate
+from information.models import Banner, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -23,3 +23,4 @@ admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Donation, DonationAdmin)
 admin.site.register(HistoryMain, HistoryAdmin)
 admin.site.register(HistoryAffiliate, HistoryAdmin)
+admin.site.register(SocietyAbout)

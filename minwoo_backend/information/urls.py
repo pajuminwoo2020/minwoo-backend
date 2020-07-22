@@ -20,8 +20,6 @@ urlpatterns = [
     path('information/affiliate/histories', views.AffiliateHistoriesView.as_view(), name='information_affiliate_histories'),
 
     # SocietyAbout
-    path('society/about/create', views.CreateSocietyAboutView.as_view(), name='society_about_create'),
-    path('society/about/<int:society_about_id>', views.SocietyAboutView.as_view(), name='society_about'),
     path('society/abouts', views.SocietyAboutsView.as_view(), name='society_abouts'),
 
     # People
