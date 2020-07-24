@@ -132,14 +132,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         return False
 
     def has_perm(self, perm, obj=None):  # used by Django's admin
-        return self.is_group_admin()
+        return self.is_group_admin() or self.is_superuser
 
     def has_module_perms(self, app_label):  # used by Django's admin
-        return self.is_group_admin()
+        return self.is_group_admin() or self.is_superuser
 
     @property
     def is_staff(self):  # used by Django's admin
-        return self.is_group_admin()
+        return self.is_group_admin() or self.is_superuser
 
     def get_groups(self):
         group_list = []
