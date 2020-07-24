@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views 
+from . import views
 app_name = 'board'
 urlpatterns = [
     # BoardSettlement
@@ -52,6 +52,12 @@ urlpatterns = [
     path('board/drive', views.CreateBoardDriveView.as_view(), name='board_drive_create'),
     path('board/drive/<int:board_id>', views.BoardDriveView.as_view(), name='board_drive'),
     path('board/drives', views.BoardDrivesView.as_view(), name='board_drives'),
+
+    # BoardAffiliateActivity
+    path('board/affiliate_activity', views.CreateBoardAffiliateActivityView.as_view(), name='board_affiliate_activity_create'),
+    path('board/affiliate_activity/<int:board_id>', views.BoardAffiliateActivityView.as_view(), name='board_affiliate_activity'),
+    path('board/affiliate_activities', views.BoardAffiliateActivitiesView.as_view(), name='board_affiliate_activities'),
+
 
     # Image
     path('board/image', views.UploadImageView.as_view(), name='image_upload'),

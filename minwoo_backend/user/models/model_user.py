@@ -118,6 +118,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self
 
     def is_group_admin(self):
+        if self.is_superuser:
+            return True
+
         for group in self.groups.all():
             if group.name == User.GROUP_ADMIN:
                 return True
@@ -143,7 +146,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_groups(self):
         group_list = []
-        for group in self.groups.all():
-            group_list.append(group.name)
+
+        if self.is_group_admin():
+            group_list.append(User.GROUP_ADMIN)
+        if self.is_group_staff():
+            group_list.append(User.GROUP_STAFF)
 
         return group_list
