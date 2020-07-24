@@ -8,6 +8,7 @@ from .view_board_newsletter import *
 from .view_board_gallery import *
 from .view_board_drive import *
 from .view_board_society_activity import *
+from .view_board_affiliate_activity import *
 from .view_category import *
 from .view_image import *
 from .view_file import *

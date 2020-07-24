@@ -9,6 +9,7 @@ from .model_board_newsletter import *
 from .model_board_gallery import *
 from .model_board_drive import *
 from .model_board_society_activity import *
+from .model_board_affiliate_activity import *
 from .model_category import *
 from .model_image import *
 from .model_file import *

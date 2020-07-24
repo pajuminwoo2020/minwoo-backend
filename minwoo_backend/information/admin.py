@@ -19,7 +19,7 @@ class HistoryAdmin(admin.ModelAdmin):
 
 
 class PeopleAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'position']
+    list_display = ['id', 'name', 'position', 'ordering']
     search_fields = ['name']
 
 
