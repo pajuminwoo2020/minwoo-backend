@@ -5,15 +5,29 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.db import models
-from django.utils import translation
+from django.utils import six, translation
 from django.utils.translation import activate, LANGUAGE_SESSION_KEY
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.urls import reverse
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 
 
 logger = logging.getLogger('logger')
 
-# password_reset_token = PasswordResetTokenGenerator()
+
+class UserActivationTokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):  # overriding default
+        login_timestamp = '' if (user is None or user.last_login is None) else user.last_login.replace(microsecond=0, tzinfo=None)
+        return (
+                six.text_type(user.pk if user is not None else 0) + six.text_type(user.userid if user is not None else '') + six.text_type(user.is_active if user is not None else False) +
+                six.text_type(login_timestamp) + six.text_type(timestamp)
+        )
+
+user_activation_token = UserActivationTokenGenerator()
+password_reset_token = PasswordResetTokenGenerator()
+
 
 class UserManager(BaseUserManager):
     def create_user(self, userid, fullname, password, is_active=False, fullname_en=None):
@@ -153,3 +167,27 @@ class User(AbstractBaseUser, PermissionsMixin):
             group_list.append(User.GROUP_STAFF)
 
         return group_list
+
+    def send_activation_email(self):
+        uidb64 = urlsafe_base64_encode(force_bytes(self.pk))
+        token = user_activation_token.make_token(self)
+        message = render_to_string('user_activation_email.html', {
+            'handle_url': f'{settings.FRONT_HOST}{reverse("user:activate", kwargs={"uidb64": uidb64, "token": token})}',
+            'user': self,
+        })
+        mail_subject = '[민우회] 회원가입 인증 메일입니다.'
+
+        email = EmailMessage(mail_subject, message, to=[self.userid])
+        email.send()
+
+    def send_password_reset_email(self):
+        uidb64 = urlsafe_base64_encode(force_bytes(self.pk))
+        token = password_reset_token.make_token(self)
+        message = render_to_string('password_reset_email.html', {
+            'handle_url': f'{settings.FRONT_HOST}{reverse("user:password_update", kwargs={"uidb64": uidb64, "token": token})}',
+            'user': self,
+        })
+        mail_subject = '[민우회] 패스워드 재설정 메일입니다.'
+
+        email = EmailMessage(mail_subject, message, to=[self.userid])
+        email.send()

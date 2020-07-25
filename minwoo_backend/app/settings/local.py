@@ -7,6 +7,7 @@ DEBUG = True
 
 INSTALLED_APPS += ['drf_yasg']
 ALLOWED_HOSTS = ['*']
+FRONT_HOST = 'http://localhost:3000'
 
 # Database
 DATABASES = {

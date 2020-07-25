@@ -58,6 +58,21 @@ urlpatterns = [
     path('board/affiliate_activity/<int:board_id>', views.BoardAffiliateActivityView.as_view(), name='board_affiliate_activity'),
     path('board/affiliate_activities', views.BoardAffiliateActivitiesView.as_view(), name='board_affiliate_activities'),
 
+    # BoardIntranetShare
+    path('board/intranetshare', views.CreateBoardIntranetShareView.as_view(), name='board_intranetshare_create'),
+    path('board/intranetshare/<int:board_id>', views.BoardIntranetShareView.as_view(), name='board_intranetshare'),
+    path('board/intranetshares', views.BoardIntranetSharesView.as_view(), name='board_intranetshares'),
+
+    # BoardIntranetDrive
+    path('board/intranetdrive', views.CreateBoardIntranetDriveView.as_view(), name='board_intranetdrive_create'),
+    path('board/intranetdrive/<int:board_id>', views.BoardIntranetDriveView.as_view(), name='board_intranetdrive'),
+    path('board/intranetdrives', views.BoardIntranetDrivesView.as_view(), name='board_intranetdrives'),
+
+    # BoardIntranetGeneral
+    path('board/intranetgeneral', views.CreateBoardIntranetGeneralView.as_view(), name='board_intranetgeneral_create'),
+    path('board/intranetgeneral/<int:board_id>', views.BoardIntranetGeneralView.as_view(), name='board_intranetgeneral'),
+    path('board/intranetgenerals', views.BoardIntranetGeneralsView.as_view(), name='board_intranetgenerals'),
+
 
     # Image
     path('board/image', views.UploadImageView.as_view(), name='image_upload'),
