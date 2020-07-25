@@ -178,3 +178,34 @@ class PasswordChangeRequestSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         raise NotImplementedError
+
+
+class PasswordUpdateRequestSerializer(serializers.Serializer):
+    password_new = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        fields = ['password_new']
+
+    def validate(self, data):
+        _validate_password(data['password_new'], 'password_new')
+
+        return data
+
+    def reset_password(self, user):
+        # update password
+        password_new = self.validated_data.get('password_new', None)
+        if password_new:
+            user.set_password(password_new)
+            logger.info(f'Password changed for User={user}')
+
+        user.save()
+        logger.info(f'Password updated for User={user}')
+
+        return user
+
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
