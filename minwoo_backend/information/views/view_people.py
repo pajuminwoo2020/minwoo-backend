@@ -1,6 +1,7 @@
 import logging
 
 from django.http import JsonResponse
+from django.db.models import F
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -33,7 +34,6 @@ def create_people_list(queryset):
 
     return result
 
-
 class PeopleView(APIView):
     @swagger_auto_schema(
         tags=['people'],
@@ -46,6 +46,6 @@ class PeopleView(APIView):
         """
         Gets people
         """
-        people = create_people_list(People.objects.all())
+        people = create_people_list(People.objects.all().order_by(F('ordering').asc(nulls_last=True)))
 
         return JsonResponse(people, safe=False, status=status.HTTP_200_OK)
