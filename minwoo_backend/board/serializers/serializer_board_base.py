@@ -59,7 +59,7 @@ class BoardBaseRequestSerializer(serializers.ModelSerializer):
 
     def validate(self ,data):
         user = self.context.get('user')
-        if self.instance and user != self.instance.created_by:
+        if not user.is_group_admin() and not user.is_group_staff() and self.instance and user != self.instance.created_by:
             raise serializers.ValidationError(_('The user does not have permission.'))
 
         return data
