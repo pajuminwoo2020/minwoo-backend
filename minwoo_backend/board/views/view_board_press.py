@@ -102,9 +102,6 @@ class BoardPressView(PermissionMixin, HitCountMixin, APIView):
         Deletes the BoardPress with the corresponding id
         """
         board = get_object_or_404(BoardPress, pk=board_id)
-        if request.user != board.created_by:
-            return JsonResponse({'error_message': _('The user does not have permission.')}, status=status.HTTP_400_BAD_REQUEST)
-
         board.delete()
 
         return JsonResponse({'id': board_id}, safe=False, status=status.HTTP_200_OK)

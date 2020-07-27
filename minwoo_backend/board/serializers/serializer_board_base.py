@@ -57,13 +57,6 @@ class BoardBaseRequestSerializer(serializers.ModelSerializer):
             'file_ids': {'required': False},
         }
 
-    def validate(self ,data):
-        user = self.context.get('user')
-        if not user.is_group_admin() and not user.is_group_staff() and self.instance and user != self.instance.created_by:
-            raise serializers.ValidationError(_('The user does not have permission.'))
-
-        return data
-
     def update(self, instance, validated_data):
         files = validated_data.pop('files', [])
         with transaction.atomic():
