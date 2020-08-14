@@ -13,7 +13,7 @@ from hitcount.views import HitCountMixin
 from board.models import BoardIntranetDrive
 from board.serializers import BoardIntranetDriveResponseSerializer, CreateBoardIntranetDriveRequestSerializer, BoardIntranetDriveRequestSerializer, BoardIntranetDriveWithBodyResponseSerializer
 from board.permissions import  BoardManagementPermission
-from app.common.mixins import PermissionMixin, ListModelMixin
+from app.common.mixins import ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import SearchFilter, OrderingFilter
 
@@ -42,7 +42,7 @@ class CreateBoardIntranetDriveView(APIView):
         return JsonResponse(BoardIntranetDriveResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
 
 
-class BoardIntranetDriveView(PermissionMixin, HitCountMixin, APIView):
+class BoardIntranetDriveView(HitCountMixin, APIView):
     permission_classes = [IsAuthenticated, BoardManagementPermission]
 
     @swagger_auto_schema(

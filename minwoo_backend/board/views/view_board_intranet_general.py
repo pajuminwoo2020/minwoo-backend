@@ -13,7 +13,7 @@ from hitcount.views import HitCountMixin
 from board.models import BoardIntranetGeneral
 from board.serializers import BoardIntranetGeneralResponseSerializer, CreateBoardIntranetGeneralRequestSerializer, BoardIntranetGeneralRequestSerializer, BoardIntranetGeneralWithBodyResponseSerializer
 from board.permissions import  BoardManagementPermission
-from app.common.mixins import PermissionMixin, ListModelMixin
+from app.common.mixins import ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import SearchFilter, OrderingFilter
 
@@ -42,7 +42,7 @@ class CreateBoardIntranetGeneralView(APIView):
         return JsonResponse(BoardIntranetGeneralResponseSerializer(board).data, safe=False, status=status.HTTP_200_OK)
 
 
-class BoardIntranetGeneralView(PermissionMixin, HitCountMixin, APIView):
+class BoardIntranetGeneralView(HitCountMixin, APIView):
     permission_classes = [IsAuthenticated, BoardManagementPermission]
 
     @swagger_auto_schema(
