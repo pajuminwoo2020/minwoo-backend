@@ -13,7 +13,7 @@ from hitcount.views import HitCountMixin
 from board.models import BoardIntranetShare
 from board.serializers import BoardIntranetShareResponseSerializer, CreateBoardIntranetShareRequestSerializer, BoardIntranetShareRequestSerializer, BoardIntranetShareWithBodyResponseSerializer
 from board.permissions import  BoardManagementPermission
-from app.common.mixins import PermissionMixin, ListModelMixin
+from app.common.mixins import ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import SearchFilter, OrderingFilter
 
