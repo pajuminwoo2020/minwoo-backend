@@ -17,12 +17,23 @@ class Banner(Image):
         (TYPE_LARGE, TYPE_LARGE_DISPLAY),
     )
 
-    href = models.CharField(max_length=255, blank=False)
+    href = models.CharField(max_length=255, blank=False, help_text='배너 클릭시 이동할 주소(예시: https://www.naver.com)')
     banner_type = models.CharField(max_length=10, choices=TYPE, default=TYPE_LARGE, blank=False)
 
     class Meta:
-        verbose_name_plural = '배너업로드(큰사이즈: 720*320, 작은사이즈: 300*100)'
         ordering = ['-created_at']
 
     def __str__(self):
         return f'[pk={self.pk}, href={self.href}, banner_type={self.banner_type}]'
+
+
+class BannerSmall(Banner):
+    class Meta:
+        verbose_name_plural = '배너업로드(작은사이즈)'
+        proxy = True
+
+
+class BannerLarge(Banner):
+    class Meta:
+        verbose_name_plural = '배너업로드(큰사이즈)'
+        proxy = True

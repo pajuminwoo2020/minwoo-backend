@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from information.models import Banner, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People
+from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -23,7 +23,32 @@ class PeopleAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-admin.site.register(Banner)
+class BannerSmallAdmin(admin.ModelAdmin):
+    readonly_fields = ('banner_type',)
+
+    def get_queryset(self, request):
+        qs = super(BannerSmallAdmin, self).get_queryset(request)
+
+        return qs.filter(banner_type=Banner.TYPE_SMALL)
+
+    def get_changeform_initial_data(self, request):
+        return {'banner_type': Banner.TYPE_SMALL}
+
+
+class BannerLargeAdmin(admin.ModelAdmin):
+    readonly_fields = ('banner_type',)
+
+    def get_queryset(self, request):
+        qs = super(BannerLargeAdmin, self).get_queryset(request)
+
+        return qs.filter(banner_type=Banner.TYPE_LARGE)
+
+    def get_changeform_initial_data(self, request):
+        return {'banner_type': Banner.TYPE_LARGE}
+
+
+admin.site.register(BannerSmall, BannerSmallAdmin)
+admin.site.register(BannerLarge, BannerLargeAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Donation, DonationAdmin)
 admin.site.register(HistoryMain, HistoryAdmin)

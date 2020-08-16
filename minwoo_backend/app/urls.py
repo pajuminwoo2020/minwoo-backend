@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 
-
+admin.site.site_header = '민우회 관리자페이지'
+admin.site.site_url = settings.FRONT_HOST
 urlpatterns = [
     path('admin/main/', admin.site.urls, name='admin'),
     path('', include('user.urls', namespace='user')),
