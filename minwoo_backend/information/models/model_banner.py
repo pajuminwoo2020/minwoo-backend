@@ -22,6 +22,7 @@ class Banner(Image):
 
     class Meta:
         verbose_name_plural = '배너업로드(큰사이즈: 720*320, 작은사이즈: 300*100)'
+        ordering = ['-created_at']
 
     def __str__(self):
         return f'[pk={self.pk}, href={self.href}, banner_type={self.banner_type}]'
