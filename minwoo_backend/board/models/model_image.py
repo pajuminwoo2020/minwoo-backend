@@ -9,7 +9,7 @@ logger = logging.getLogger('logger')
 
 
 class Image(models.Model):
-    image_file = models.ImageField(blank=False, null=False, max_length=2048)
+    image_file = models.ImageField(blank=False, null=False, max_length=2048, verbose_name='이미지 파일')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

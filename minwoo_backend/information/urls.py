@@ -24,4 +24,7 @@ urlpatterns = [
 
     # People
     path('intro/people', views.PeopleView.as_view(), name='intro_people'),
+
+    # Information
+    path('information', views.InformationView.as_view(), name='information'),
 ]

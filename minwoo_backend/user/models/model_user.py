@@ -76,8 +76,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     GROUP_STAFF = "스태프"
     GROUP_ADMIN = "관리자"
 
-    userid = models.EmailField(max_length=255, unique=True, blank=False)
-    fullname = models.CharField(max_length=255, blank=False)
+    userid = models.EmailField(max_length=255, unique=True, blank=False, verbose_name='아이디')
+    fullname = models.CharField(max_length=255, blank=False, verbose_name='이름')
     fullname_en = models.CharField(max_length=255, null=True, blank=True)
     language = models.CharField(max_length=5, null=False, blank=False, choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
     timezone = models.CharField(max_length=255, null=False, blank=False, choices=settings.TIME_ZONES, default=settings.TIME_ZONE_ASIA_SEOUL)
@@ -92,6 +92,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         verbose_name_plural = '사용자 관리'
+        verbose_name = '사용자 관리'
 
     def __str__(self):
         return f'[pk={self.pk}, userid={self.userid}]'

@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People
+from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People, Information
 
 
 class DonationAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user_name', 'phone', 'email', 'price', 'donation_type', 'period', 'bank_account', 'address', 'is_checked']
+    list_display = ['id', 'user_name', 'phone', 'price', 'donation_type', 'period', 'bank_account', 'is_checked', 'created_at']
     list_filter = ['is_checked']
     search_fields = ['user_name', 'email', 'phone']
 
@@ -47,6 +47,10 @@ class BannerLargeAdmin(admin.ModelAdmin):
         return {'banner_type': Banner.TYPE_LARGE}
 
 
+class InformationAdmin(admin.ModelAdmin):
+    list_display = ['id', 'chief_executive', 'email', 'phone', 'fax', 'created_at']
+
+
 admin.site.register(BannerSmall, BannerSmallAdmin)
 admin.site.register(BannerLarge, BannerLargeAdmin)
 admin.site.register(Calendar, CalendarAdmin)
@@ -55,3 +59,4 @@ admin.site.register(HistoryMain, HistoryAdmin)
 admin.site.register(HistoryAffiliate, HistoryAdmin)
 admin.site.register(SocietyAbout)
 admin.site.register(People, PeopleAdmin)
+admin.site.register(Information, InformationAdmin)
