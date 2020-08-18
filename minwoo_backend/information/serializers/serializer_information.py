@@ -13,6 +13,6 @@ class InformationResponseSerializer(serializers.ModelSerializer):
         model = Information
         fields = [
             'membership_management', 'membership_management_email', 'membership_management_phone',\
-            'chief_executive', 'address_street', 'address_jibun', 'registration_number', 'email',\
-            'phone', 'fax', 'bank_account', 'phone_counseling', 'webhost_counseling',
+            'chief_executive', 'address_street', 'address_jibun', 'location_subway', 'location_bus', 'location_car', \
+            'registration_number', 'email', 'phone', 'fax', 'bank_account', 'phone_counseling', 'webhost_counseling',
         ]
