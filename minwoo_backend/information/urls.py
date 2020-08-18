@@ -10,6 +10,7 @@ urlpatterns = [
     # Donation
     path('information/donations', views.DonationsView.as_view(), name='donations'),
     path('information/donation', views.CreateDonationView.as_view(), name='donation_create'),
+    path('information/donation/<int:donation_id>', views.DonationView.as_view(), name='donation'),
 
     # Calendar
     path('information/calendars/all', views.CalendarsAllView.as_view(), name='calendars_all'),

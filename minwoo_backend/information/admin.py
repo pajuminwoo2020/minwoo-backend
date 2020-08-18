@@ -48,6 +48,7 @@ class BannerLargeAdmin(admin.ModelAdmin):
 
 
 class InformationAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/change_list_information.html'
     list_display = ['id', 'chief_executive', 'email', 'phone', 'fax', 'created_at']
 
 

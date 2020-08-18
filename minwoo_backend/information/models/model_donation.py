@@ -1,6 +1,13 @@
 import logging
+import os
+import io
 
 from django.db import models
+from django.core.files import File
+from django.conf import settings
+from django.utils.datetime_safe import datetime
+from PyPDF2.pdf import PdfFileReader, PdfFileWriter
+from reportlab.pdfgen import canvas
 
 logger = logging.getLogger('logger')
 
@@ -22,3 +29,30 @@ class Donation(models.Model):
     class Meta:
         verbose_name_plural = '후원금 신청내역 관리'
         verbose_name = '후원금 신청내역 관리'
+
+    def draw_result(self, donation_info_stream, page_num):
+        if page_num == 0:
+            donation_info_canvas = canvas.Canvas(donation_info_stream)
+            donation_info_canvas.setFontSize(10)
+            donation_info_canvas.drawString(189, 774, str(datetime.now().year))
+            donation_info_canvas.save()
+
+    def generate_document(self):
+        with open(os.path.join(settings.STATIC_DIR, 'assets', 'application_template.pdf'), 'rb') as f:
+            application_template_reader = PdfFileReader(f)
+            application_writer = PdfFileWriter()
+            for page_num in range(application_template_reader.getNumPages()):
+                page = application_template_reader.getPage(page_num)
+                donation_info_stream = io.BytesIO()
+                self.draw_result(donation_info_stream, page_num)
+                if donation_info_stream.getvalue():
+                    donation_info_page_reader = PdfFileReader(donation_info_stream)
+                    donation_info_page = donation_info_page_reader.getPage(0)
+                    page.mergePage(donation_info_page)
+                application_writer.addPage(page)
+
+            application_file_stream = io.BytesIO()
+            application_writer.write(application_file_stream)
+            application_file_name = f'민우회 후원신청서_{self.user_name}.pdf'
+
+        return File(file=application_file_stream, name=application_file_name)

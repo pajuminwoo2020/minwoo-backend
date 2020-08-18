@@ -17,4 +17,4 @@ class CreateDonationRequestSerializer(serializers.ModelSerializer):
 class DonationResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donation
-        fields = ['donation_type', 'price', 'period', 'user_name', 'birthday', 'phone', 'email', 'bank_account', 'address', 'memo']
+        fields = ['id', 'donation_type', 'price', 'period', 'user_name', 'birthday', 'phone', 'email', 'bank_account', 'address', 'memo']

@@ -1,8 +1,6 @@
 import logging
 
-from django.http import JsonResponse
-from django.utils.translation import ugettext_lazy as _
-from drf_yasg import openapi
+from django.http import JsonResponse, HttpResponse
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -37,6 +35,26 @@ class CreateDonationView(APIView):
         donation = serializer.save()
 
         return JsonResponse(DonationResponseSerializer(donation).data, safe=False, status=status.HTTP_200_OK)
+
+
+class DonationView(APIView):
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Get Donation',
+        responses={
+            200: 'file',
+        },
+    )
+    def get(self, request, donation_id, *args, **kwargs):
+        """
+        Gets a donation
+        """
+        from django.shortcuts import get_object_or_404
+        donation = get_object_or_404(Donation, pk=donation_id)
+        response = HttpResponse(donation.generate_document(), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="hello"; filename*=UTF-8\'\'hello'
+
+        return response
 
 
 class DonationsView(ListModelMixin, APIView):
