@@ -1,12 +1,17 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People, Information
 
 
 class DonationAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user_name', 'phone', 'price', 'donation_type', 'period', 'bank_account', 'is_checked', 'created_at']
+    list_display = ['applicant_name', 'applicant_phone', 'price', 'donation_type', 'is_checked', 'created_at', 'download']
     list_filter = ['is_checked']
-    search_fields = ['user_name', 'email', 'phone']
+    search_fields = ['applicant_name', 'account_holder_name', 'email', 'applicant_phone', 'account_holder_phone']
+    ordering = ('-created_at', )
+
+    def download(self, obj):
+        return mark_safe(f"<a href='/information/donation/{obj.id}/download' class='import_link'>신청서 다운로드</a>")
 
 
 class CalendarAdmin(admin.ModelAdmin):
