@@ -6,8 +6,8 @@ logger = logging.getLogger('logger')
 
 
 class HistoryBase(models.Model):
-    memo = models.CharField(max_length=255, blank=False)
-    date_at = models.DateField()
+    memo = models.CharField(max_length=255, blank=False, help_text='해당 날짜에 있었던 일', verbose_name='있었던 일')
+    date_at = models.DateField(verbose_name='날짜')
 
     class Meta:
         abstract = True
@@ -20,8 +20,10 @@ class HistoryBase(models.Model):
 class HistoryMain(HistoryBase):
     class Meta:
         verbose_name_plural = '민우회 연혁'
+        verbose_name = '민우회 연혁'
 
 
 class HistoryAffiliate(HistoryBase):
     class Meta:
         verbose_name_plural = '성폭력상담소 연혁'
+        verbose_name = '성폭력상담소 연혁'

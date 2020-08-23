@@ -10,6 +10,7 @@ urlpatterns = [
     # Donation
     path('information/donations', views.DonationsView.as_view(), name='donations'),
     path('information/donation', views.CreateDonationView.as_view(), name='donation_create'),
+    path('information/donation/<int:donation_id>/download', views.DonationDownloadView.as_view(), name='donation_download'),
 
     # Calendar
     path('information/calendars/all', views.CalendarsAllView.as_view(), name='calendars_all'),
@@ -24,4 +25,7 @@ urlpatterns = [
 
     # People
     path('intro/people', views.PeopleView.as_view(), name='intro_people'),
+
+    # Information
+    path('information', views.InformationView.as_view(), name='information'),
 ]

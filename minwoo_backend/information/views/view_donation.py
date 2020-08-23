@@ -1,12 +1,12 @@
 import logging
+from urllib.parse import quote
 
-from django.http import JsonResponse
-from django.utils.translation import ugettext_lazy as _
-from drf_yasg import openapi
+from django.http import JsonResponse, HttpResponse
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser
 
 from information.models import Donation
 from information.serializers import DonationResponseSerializer, CreateDonationRequestSerializer
@@ -19,6 +19,7 @@ logger = logging.getLogger('logger')
 
 class CreateDonationView(APIView):
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser]
 
     @swagger_auto_schema(
         tags=['information'],
@@ -37,6 +38,28 @@ class CreateDonationView(APIView):
         donation = serializer.save()
 
         return JsonResponse(DonationResponseSerializer(donation).data, safe=False, status=status.HTTP_200_OK)
+
+
+class DonationDownloadView(APIView):
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Download Donation',
+        responses={
+            200: 'file',
+        },
+    )
+    def get(self, request, donation_id, *args, **kwargs):
+        """
+        Gets a donation pdf file
+        """
+        from django.shortcuts import get_object_or_404
+        donation = get_object_or_404(Donation, pk=donation_id)
+        file_name_quoted = quote(f'민우회 후원신청서_{donation.applicant_name}.pdf'.encode('utf-8'), safe='')
+
+        response = HttpResponse(donation.generate_document(), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{file_name_quoted}"; filename*=UTF-8\'\'{file_name_quoted}'
+
+        return response
 
 
 class DonationsView(ListModelMixin, APIView):

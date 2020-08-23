@@ -4,3 +4,4 @@ from .model_calendar import *
 from .model_history import *
 from .model_society_about import *
 from .model_people import *
+from .model_information import *

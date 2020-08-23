@@ -1,0 +1,10 @@
+{% extends "admin/change_list.html" %}
+{% load admin_urls %}
+
+{% block object-tools %}
+{{ block.super }}
+아래의 정보들 중 가장 위에 있는 정보(ID값이 가장 큰 줄)가 민우회 웹사이트에 적용됩니다.
+<br></br>
+새로운 정보를 적용하려면 오른쪽 버튼을 클릭해서 새로 추가해주세요.
+<br></br>
+{% endblock %}

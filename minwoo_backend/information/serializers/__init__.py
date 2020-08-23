@@ -4,3 +4,4 @@ from .serializer_calendar import *
 from .serializer_history import *
 from .serializer_society_about import *
 from .serializer_people import *
+from .serializer_information import *

@@ -20,11 +20,12 @@ class Category(models.Model):
         (TYPE_BOARD_SOCIETY_ACTIVITY, TYPE_BOARD_SOCIETY_ACTIVITY_DISPLAY),
     )
 
-    name = models.CharField(max_length=255, blank=False)
-    board_type = models.CharField(max_length=20, choices=TYPE_BOARD, null=False, blank=False)
+    name = models.CharField(max_length=255, blank=False, help_text='카테고리명', verbose_name='카테고리명')
+    board_type = models.CharField(max_length=20, choices=TYPE_BOARD, null=False, blank=False, help_text='카테고리를 추가할 게시판 이름', verbose_name='게시판선택')
 
     class Meta:
         verbose_name_plural = '게시판 카테고리 관리'
+        verbose_name = '게시판 카테고리 관리'
 
     def __str__(self):
         return f'[pk={self.pk}, name={self.name}, board_type={self.get_board_type_display()}]'
