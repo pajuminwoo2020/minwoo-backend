@@ -18,7 +18,6 @@ logger = logging.getLogger('logger')
 
 
 class CreateDonationView(APIView):
-    permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser]
 
     @swagger_auto_schema(
