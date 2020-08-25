@@ -14,7 +14,7 @@ class SocietyAboutResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SocietyAbout
-        fields = ['id', 'name', 'description', 'main_activity', 'schedule', 'website', 'is_default']
+        fields = ['id', 'name', 'description', 'main_activity', 'schedule', 'website']
 
     def _split_string(self, text):
         if not text:
