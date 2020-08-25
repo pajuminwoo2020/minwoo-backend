@@ -28,4 +28,11 @@ urlpatterns = [
 
     # Information
     path('information', views.InformationView.as_view(), name='information'),
+
+    # About
+    path('intro/about', views.AboutView.as_view(), name='intro_about'),
+
+    # ClinicAbout
+    path('affiliate/clinic/about', views.ClinicAboutView.as_view(), name='clinic_about'),
+
 ]

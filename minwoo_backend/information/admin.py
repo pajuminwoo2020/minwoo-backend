@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People, Information
+from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People, Information, About, ClinicAbout
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -56,6 +56,12 @@ class InformationAdmin(admin.ModelAdmin):
     change_list_template = 'admin/change_list_information.html'
     list_display = ['id', 'chief_executive', 'email', 'phone', 'fax', 'created_at']
 
+class AboutAdmin(admin.ModelAdmin):
+    list_display = ['id', 'introduction', 'watchword', 'created_at']
+
+class ClinicAboutAdmin(admin.ModelAdmin):
+    list_display = ['id', 'purpose', 'activity', 'created_at']
+
 
 admin.site.register(BannerSmall, BannerSmallAdmin)
 admin.site.register(BannerLarge, BannerLargeAdmin)
@@ -66,3 +72,5 @@ admin.site.register(HistoryAffiliate, HistoryAdmin)
 admin.site.register(SocietyAbout)
 admin.site.register(People, PeopleAdmin)
 admin.site.register(Information, InformationAdmin)
+admin.site.register(About, AboutAdmin)
+admin.site.register(ClinicAbout, ClinicAboutAdmin)

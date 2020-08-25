@@ -5,3 +5,5 @@ from .model_history import *
 from .model_society_about import *
 from .model_people import *
 from .model_information import *
+from .model_about import *
+from .model_clinic_about import *
