@@ -13,10 +13,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from information.models import Calendar
-from information.serializers import CalendarResponseSerializer, CalendarSimpleResponseSerializer
+from information.serializers import CalendarResponseSerializer, CalendarSimpleResponseSerializer, CreateScheduleRequestSerializer
 from app.common.mixins import ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import OrderingFilter
+from board.permissions import  BoardManagementPermission
 
 logger = logging.getLogger('logger')
 
@@ -92,3 +93,27 @@ class CalendarsView(ListModelMixin, APIView):
         )
 
         return self.list(schedules, CalendarResponseSerializer)
+
+
+class CreateScheduleView(APIView):
+    permission_classes = [IsAuthenticated, BoardManagementPermission]
+
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Create Schedule',
+        request_body=CreateScheduleRequestSerializer,
+        responses={
+            200: CalendarResponseSerializer,
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        """
+        Creates a Schedule
+        """
+        serializer = CreateScheduleRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        schedule = serializer.save()
+
+        return JsonResponse(CalendarResponseSerializer(schedule).data, safe=False, status=status.HTTP_200_OK)
+
+        

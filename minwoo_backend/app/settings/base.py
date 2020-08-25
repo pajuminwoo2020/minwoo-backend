@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'hitcount',
-    # Project-specific apps
     'user',
     'board',
     'information',
