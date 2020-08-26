@@ -15,7 +15,8 @@ urlpatterns = [
     # Calendar
     path('information/calendars/all', views.CalendarsAllView.as_view(), name='calendars_all'),
     path('information/calendars', views.CalendarsView.as_view(), name='calendars'),
-    path('information/calendars/create', views.CreateScheduleView.as_view(), name='schedule_create'),
+    path('information/calendar/create', views.CreateScheduleView.as_view(), name='schedule_create'),
+    path('information/calendar/<int:calendar_id>', views.CalendarView.as_view(), name='calendar'),
 
     # History
     path('information/main/histories', views.MainHistoriesView.as_view(), name='information_main_histories'),
