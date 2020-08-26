@@ -5,5 +5,6 @@ from .serializer_history import *
 from .serializer_society_about import *
 from .serializer_people import *
 from .serializer_information import *
-from .serializer_about import *
-from .serializer_clinic_about import *
+from .serializer_page_about import *
+from .serializer_page_clinic_about import *
+from .serializer_page_donation import *

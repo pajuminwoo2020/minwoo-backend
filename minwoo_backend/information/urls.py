@@ -31,10 +31,12 @@ urlpatterns = [
     # Information
     path('information', views.InformationView.as_view(), name='information'),
 
-    # About
+    # About page
     path('intro/about', views.AboutView.as_view(), name='intro_about'),
 
-    # ClinicAbout
+    # ClinicAbout page
     path('affiliate/clinic/about', views.ClinicAboutView.as_view(), name='clinic_about'),
 
+    # Donation page
+    path('donation/page', views.DonationPageView.as_view(), name='donation_page'),
 ]
