@@ -42,3 +42,10 @@ class CalendarResponseSerializer(serializers.ModelSerializer):
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_schedule_to(self, obj):
         return localtime(obj.schedule_to).strftime('%Y-%m-%d %H:%M')
+
+
+class CreateScheduleRequestSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Calendar
+        fields = ['schedule_name', 'schedule_from', 'schedule_to', 'memo']

@@ -36,9 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
-    'hitcount',
     # Project-specific apps
+    'hitcount',
     'user',
     'board',
     'information',
