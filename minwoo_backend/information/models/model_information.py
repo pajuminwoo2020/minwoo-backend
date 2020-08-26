@@ -22,6 +22,7 @@ class Information(models.Model):
     bank_account = models.CharField(max_length=255, blank=False, verbose_name='후원계좌')
     phone_counseling = models.CharField(max_length=255, blank=False, verbose_name='부설기구 전화번호')
     webhost_counseling = models.CharField(max_length=255, blank=False, verbose_name='부설기구 홈페이지')
+    instagram_feed = models.CharField(max_length=255, blank=True, null=True, verbose_name='인스타그램 게시물 주소', help_text="메인화면 인스타그램 미리보기 게시물")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='수정일')
 
     class Meta:
