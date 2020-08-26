@@ -15,6 +15,8 @@ urlpatterns = [
     # Calendar
     path('information/calendars/all', views.CalendarsAllView.as_view(), name='calendars_all'),
     path('information/calendars', views.CalendarsView.as_view(), name='calendars'),
+    path('information/calendar/create', views.CreateScheduleView.as_view(), name='schedule_create'),
+    path('information/calendar/<int:calendar_id>', views.CalendarView.as_view(), name='calendar'),
 
     # History
     path('information/main/histories', views.MainHistoriesView.as_view(), name='information_main_histories'),
@@ -28,4 +30,13 @@ urlpatterns = [
 
     # Information
     path('information', views.InformationView.as_view(), name='information'),
+
+    # About page
+    path('intro/about', views.AboutView.as_view(), name='intro_about'),
+
+    # ClinicAbout page
+    path('affiliate/clinic/about', views.ClinicAboutView.as_view(), name='clinic_about'),
+
+    # Donation page
+    path('donation/page', views.DonationPageView.as_view(), name='donation_page'),
 ]

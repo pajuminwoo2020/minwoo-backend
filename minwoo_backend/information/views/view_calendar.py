@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.utils.timezone import make_aware
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -13,10 +14,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from information.models import Calendar
-from information.serializers import CalendarResponseSerializer, CalendarSimpleResponseSerializer
-from app.common.mixins import ListModelMixin
+from information.serializers import CalendarResponseSerializer, CalendarSimpleResponseSerializer, CreateScheduleRequestSerializer, CalendarRequestSerializer
+from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import OrderingFilter
+from board.permissions import  BoardManagementPermission
 
 logger = logging.getLogger('logger')
 
@@ -92,3 +94,89 @@ class CalendarsView(ListModelMixin, APIView):
         )
 
         return self.list(schedules, CalendarResponseSerializer)
+
+
+class CreateScheduleView(APIView):
+    permission_classes = [IsAuthenticated, BoardManagementPermission]
+
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Create Schedule',
+        request_body=CreateScheduleRequestSerializer,
+        responses={
+            200: CalendarResponseSerializer,
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        """
+        Creates a Schedule
+        """
+        serializer = CreateScheduleRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        schedule = serializer.save()
+
+        return JsonResponse(CalendarResponseSerializer(schedule).data, safe=False, status=status.HTTP_200_OK)
+
+
+class CalendarView(PermissionMixin, APIView):
+    permission_classes = {
+        'get': [],
+        'put': [IsAuthenticated, BoardManagementPermission],
+        'delete': [IsAuthenticated, BoardManagementPermission],
+    }
+
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Get Calendar',
+        responses={
+            200: CalendarResponseSerializer,
+        },
+    )
+    def get(self, request, calendar_id, *args, **kwargs):
+        """
+        Gets the Calendar with the corresponding id
+        """
+        calendar = get_object_or_404(Calendar, pk=calendar_id)
+
+        return JsonResponse(CalendarResponseSerializer(calendar).data, safe=False, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Update Calendar',
+        request_body=CalendarRequestSerializer,
+        responses={
+            200: CalendarResponseSerializer,
+        },
+    )
+    def put(self, request, calendar_id, *args, **kwargs):
+        """
+        Updates the Calendar with the corresponding id
+        """
+        calendar = get_object_or_404(Calendar, pk=calendar_id)
+
+        serializer = CalendarRequestSerializer(data=request.data, instance=calendar)
+        serializer.is_valid(raise_exception=True)
+        calendar = serializer.save()
+
+        return JsonResponse(CalendarResponseSerializer(calendar).data, safe=False, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Delete Calendar',
+        responses={
+            200: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'id': openapi.Schema(type=openapi.TYPE_INTEGER),
+                },
+            ),
+        },
+    )
+    def delete(self, request, calendar_id, *args, **kwargs):
+        """
+        Deletes the Calendar with the corresponding id
+        """
+        calendar = get_object_or_404(Calendar, pk=calendar_id)
+        calendar.delete()
+
+        return JsonResponse({'id': calendar_id}, safe=False, status=status.HTTP_200_OK)

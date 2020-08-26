@@ -42,3 +42,22 @@ class CalendarResponseSerializer(serializers.ModelSerializer):
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_schedule_to(self, obj):
         return localtime(obj.schedule_to).strftime('%Y-%m-%d %H:%M')
+
+
+class CalendarRequestSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Calendar
+        fields = ['schedule_name', 'schedule_from', 'schedule_to', 'memo']
+
+    def validate(self, data):
+        if data.get('schedule_from') > data.get('schedule_to'):
+            data.update({
+                'schedule_to': data.get('schedule_from'),
+            })
+
+        return data
+
+
+class CreateScheduleRequestSerializer(CalendarRequestSerializer):
+    pass
