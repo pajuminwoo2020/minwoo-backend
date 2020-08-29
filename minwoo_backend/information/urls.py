@@ -10,7 +10,7 @@ urlpatterns = [
     # Donation
     path('information/donations', views.DonationsView.as_view(), name='donations'),
     path('information/donation', views.CreateDonationView.as_view(), name='donation_create'),
-    path('information/donation/<int:donation_id>/download', views.DonationDownloadView.as_view(), name='donation_download'),
+    path('information/donation/<slug:uidb64>/download', views.DonationDownloadView.as_view(), name='donation_download'),
 
     # Calendar
     path('information/calendars/all', views.CalendarsAllView.as_view(), name='calendars_all'),
@@ -20,7 +20,6 @@ urlpatterns = [
 
     # History
     path('information/main/histories', views.MainHistoriesView.as_view(), name='information_main_histories'),
-    path('information/affiliate/histories', views.AffiliateHistoriesView.as_view(), name='information_affiliate_histories'),
 
     # SocietyAbout
     path('society/abouts', views.SocietyAboutsView.as_view(), name='society_abouts'),

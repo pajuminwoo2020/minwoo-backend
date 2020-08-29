@@ -2,6 +2,8 @@ import logging
 from urllib.parse import quote
 
 from django.http import JsonResponse, HttpResponse
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_text
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -47,12 +49,12 @@ class DonationDownloadView(APIView):
             200: 'file',
         },
     )
-    def get(self, request, donation_id, *args, **kwargs):
+    def get(self, request, uidb64, *args, **kwargs):
         """
         Gets a donation pdf file
         """
         from django.shortcuts import get_object_or_404
-        donation = get_object_or_404(Donation, pk=donation_id)
+        donation = get_object_or_404(Donation, pk=force_text(urlsafe_base64_decode(uidb64)))
         file_name_quoted = quote(f'민우회 후원신청서_{donation.applicant_name}.pdf'.encode('utf-8'), safe='')
 
         response = HttpResponse(donation.generate_document(), content_type='application/pdf')
