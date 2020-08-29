@@ -30,11 +30,17 @@ class CreateDonationRequestSerializer(serializers.ModelSerializer):
 
 
 class DonationResponseSerializer(serializers.ModelSerializer):
+    absolute_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Donation
         fields = [
             'id', 'donation_type', 'price', 'applicant_name', 'applicant_birthday', 'applicant_phone',
             'account_holder_name', 'account_holder_birthday', 'account_holder_phone',
             'email', 'bank_name', 'account_number', 'address', 'memo', 'resident_registration_number',
-            'agree_receipt', 'agree_unique', 'agree_personal', 'agree_offer', 'created_at'
+            'agree_receipt', 'agree_unique', 'agree_personal', 'agree_offer', 'absolute_url', 'created_at'
         ]
+
+    @swagger_serializer_method(serializer_or_field=serializers.CharField)
+    def get_absolute_url(self, obj):
+        return obj.get_absolute_url()

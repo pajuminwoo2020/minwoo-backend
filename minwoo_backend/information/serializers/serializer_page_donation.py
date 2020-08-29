@@ -2,9 +2,8 @@ from rest_framework import serializers
 
 from information.models import DonationPage
 
-class DonationPageResponseSerializer(serializers.Serializer):
-    introduction = serializers.CharField()
+class DonationPageResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DonationPage
-        fields = ['introduction']
+        fields = ['introduction', 'benefits', 'payment_method']

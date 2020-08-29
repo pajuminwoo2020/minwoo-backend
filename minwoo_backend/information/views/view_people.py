@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
-from information.models import People
+from information.models import People, PeopleImage
 from information.serializers import PeopleResponseSerializer
 from app.common.mixins import ListModelMixin
 
@@ -47,5 +47,9 @@ class PeopleView(APIView):
         Gets people
         """
         people = create_people_list(People.objects.all().order_by(F('ordering').asc(nulls_last=True)))
+        people_image = PeopleImage.objects.order_by('created_at').last()
 
-        return JsonResponse(people, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse({
+            'contents': people,
+            'absolute_url': people_image.get_image_absolute_url(),
+        }, safe=False, status=status.HTTP_200_OK)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, People, Information, About, ClinicAbout, DonationPage
+from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, SocietyAbout, People, Information, About, ClinicAbout, DonationPage, PeopleImage
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -11,7 +11,7 @@ class DonationAdmin(admin.ModelAdmin):
     ordering = ('-created_at', )
 
     def download(self, obj):
-        return mark_safe(f"<a href='/information/donation/{obj.id}/download' class='import_link'>신청서 다운로드</a>")
+        return mark_safe(f"<a href='{obj.get_absolute_url()}' class='import_link'>신청서 다운로드</a>")
 
 
 class CalendarAdmin(admin.ModelAdmin):
@@ -66,16 +66,16 @@ class ClinicAboutAdmin(admin.ModelAdmin):
 
 
 class DonationPageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'introduction', 'created_at']
+    list_display = ['id', 'introduction', 'benefits', 'created_at']
 
 admin.site.register(BannerSmall, BannerSmallAdmin)
 admin.site.register(BannerLarge, BannerLargeAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Donation, DonationAdmin)
 admin.site.register(HistoryMain, HistoryAdmin)
-admin.site.register(HistoryAffiliate, HistoryAdmin)
 admin.site.register(SocietyAbout)
 admin.site.register(People, PeopleAdmin)
+admin.site.register(PeopleImage)
 admin.site.register(Information, InformationAdmin)
 admin.site.register(About, AboutAdmin)
 admin.site.register(ClinicAbout, ClinicAboutAdmin)
