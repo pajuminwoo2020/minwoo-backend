@@ -7,6 +7,7 @@ from django.core.files import File
 from django.conf import settings
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from django.utils.timezone import localtime
 from django.utils.datetime_safe import datetime
 from django.urls import reverse
 from PyPDF2.pdf import PdfFileReader, PdfFileWriter
@@ -185,9 +186,9 @@ class Donation(models.Model):
             donation_info_canvas.drawString(271, 270, 'V')
         """ 4. 서명 """
         donation_info_canvas.setFont('NanumGothicBold', 10)
-        donation_info_canvas.drawString(309, 135, str(self.created_at.year))
-        donation_info_canvas.drawString(355, 135, str(self.created_at.month))
-        donation_info_canvas.drawString(373, 135, str(self.created_at.day))
+        donation_info_canvas.drawString(309, 135, str(localtime(self.created_at).year))
+        donation_info_canvas.drawString(355, 135, str(localtime(self.created_at).month))
+        donation_info_canvas.drawString(373, 135, str(localtime(self.created_at).day))
         donation_info_canvas.drawString(440, 136, str(self.applicant_name))
         self._draw_signature(donation_info_canvas)
         if self.applicant_name != self.account_holder_name:
