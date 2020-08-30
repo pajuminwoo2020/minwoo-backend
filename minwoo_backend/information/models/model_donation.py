@@ -195,8 +195,8 @@ class Donation(models.Model):
             donation_info_canvas.drawString(440, 122, str(self.account_holder_name))
         """ 5. 하단 회사정보 """
         donation_info_canvas.setFont('NanumGothic', 7)
-        donation_info_canvas.drawString(203, 56, information.phone)
-        donation_info_canvas.drawString(308, 56, information.fax)
+        donation_info_canvas.drawString(205, 56, information.phone)
+        donation_info_canvas.drawString(309, 56, information.fax)
         donation_info_canvas.drawString(413, 56, information.email)
 
         donation_info_canvas.save()
