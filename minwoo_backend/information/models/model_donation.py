@@ -107,27 +107,28 @@ class Donation(models.Model):
         else:
             donation_info_canvas.drawString(374, 627, 'V')
         ## 가입동기
-        if self.motivation == self.MOTIVATION_SUGGESTION:
-            donation_info_canvas.drawString(185, 502, 'V')
-        elif self.motivation == self.MOTIVATION_SNS:
-            donation_info_canvas.drawString(271, 502, 'V')
-        elif self.motivation == self.MOTIVATION_PRESS:
-            donation_info_canvas.drawString(376, 502, 'V')
-        elif self.motivation == self.MOTIVATION_CAMPAIGN:
-            donation_info_canvas.drawString(405, 502, 'V')
-        elif self.motivation == self.MOTIVATION_ACTIVITY:
-            donation_info_canvas.drawString(462, 502, 'V')
-        elif self.motivation == self.MOTIVATION_PLAN:
-            donation_info_canvas.drawString(185, 490, 'V')
-        elif self.motivation == self.MOTIVATION_CONSULTING:
-            donation_info_canvas.drawString(241, 490, 'V')
-        elif self.motivation == self.MOTIVATION_EDUCATION:
-            donation_info_canvas.drawString(298, 490, 'V')
-        else: # self.motivation == self.MOTIVATION_ETC
-            donation_info_canvas.drawString(329, 490, 'V')
-            donation_info_canvas.setFont('NanumGothic', 7)
+        if self.donation_type == self.DONATION_TYPE_REGULAR:
+            if self.motivation == self.MOTIVATION_SUGGESTION:
+                donation_info_canvas.drawString(185, 502, 'V')
+            elif self.motivation == self.MOTIVATION_SNS:
+                donation_info_canvas.drawString(271, 502, 'V')
+            elif self.motivation == self.MOTIVATION_PRESS:
+                donation_info_canvas.drawString(376, 502, 'V')
+            elif self.motivation == self.MOTIVATION_CAMPAIGN:
+                donation_info_canvas.drawString(405, 502, 'V')
+            elif self.motivation == self.MOTIVATION_ACTIVITY:
+                donation_info_canvas.drawString(462, 502, 'V')
+            elif self.motivation == self.MOTIVATION_PLAN:
+                donation_info_canvas.drawString(185, 490, 'V')
+            elif self.motivation == self.MOTIVATION_CONSULTING:
+                donation_info_canvas.drawString(241, 490, 'V')
+            elif self.motivation == self.MOTIVATION_EDUCATION:
+                donation_info_canvas.drawString(298, 490, 'V')
+            else: # self.motivation == self.MOTIVATION_ETC
+                donation_info_canvas.drawString(329, 490, 'V')
 
         # 예금주 정보
+        donation_info_canvas.setFont('NanumGothic', 7)
         donation_info_canvas.drawString(182, 600, self.account_holder_name)
         donation_info_canvas.drawString(452, 600, self.account_holder_birthday)
         donation_info_canvas.drawString(182, 575, str(self.account_number))
