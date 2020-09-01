@@ -5,6 +5,7 @@ from django.db import models
 class About(models.Model) :
     introduction = models.TextField(blank=False, verbose_name='소개')
     watchword = models.TextField(blank=False, verbose_name='회원 다짐')
+    purpose = models.TextField(blank=False, verbose_name='창립취지문')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

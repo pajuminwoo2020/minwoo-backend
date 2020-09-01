@@ -23,6 +23,8 @@ class Information(models.Model):
     phone_counseling = models.CharField(max_length=255, blank=False, verbose_name='부설기구 전화번호')
     webhost_counseling = models.CharField(max_length=255, blank=False, verbose_name='부설기구 홈페이지')
     instagram_feed = models.CharField(max_length=255, blank=True, null=True, verbose_name='인스타그램 게시물 주소', help_text="메인화면 인스타그램 미리보기 게시물")
+    location_latitude = models.DecimalField(max_digits = 7, null=True, decimal_places=4, verbose_name='위도')
+    location_longitude = models.DecimalField(max_digits = 7, null=True, decimal_places=4, verbose_name='경도')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='수정일')
 
     class Meta:
