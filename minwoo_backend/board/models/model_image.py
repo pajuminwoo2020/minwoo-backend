@@ -27,8 +27,8 @@ class Image(models.Model):
         return ''
 
     def save(self, *args, **kwargs):
-        (mimetype, encoding) = mimetypes.guess_type(self.image_file.name)
-        if mimetype != 'image/jpeg':
+        (mimetype, encoding) = mimetypes.guess_type(self.image_file.name if self.image_file else '')
+        if mimetype and mimetype != 'image/jpeg':
             # png같은 이미지 파일은 용량이 너무 커서 줄여줌
             image_temporary = PILImage.open(self.image_file)
             image_temporary = image_temporary.convert('RGB')
