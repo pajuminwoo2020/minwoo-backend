@@ -15,21 +15,23 @@ class DonationAdmin(admin.ModelAdmin):
 
 
 class CalendarAdmin(admin.ModelAdmin):
-    list_display = ['id', 'schedule_name', 'schedule_from', 'schedule_to']
+    list_display = ['schedule_name', 'schedule_from', 'schedule_to']
     search_fields = ['schedule_name']
 
 
 class HistoryAdmin(admin.ModelAdmin):
+    list_display = ['memo', 'date_at']
     ordering = ('-date_at', )
 
 
 class PeopleAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'position', 'ordering']
+    list_display = ['name', 'position', 'ordering']
     search_fields = ['name']
 
 
 class BannerSmallAdmin(admin.ModelAdmin):
     readonly_fields = ('banner_type',)
+    list_display = ['title', 'image_file', 'href']
 
     def get_queryset(self, request):
         qs = super(BannerSmallAdmin, self).get_queryset(request)
@@ -42,6 +44,7 @@ class BannerSmallAdmin(admin.ModelAdmin):
 
 class BannerLargeAdmin(admin.ModelAdmin):
     readonly_fields = ('banner_type',)
+    list_display = ['title', 'image_file', 'href']
 
     def get_queryset(self, request):
         qs = super(BannerLargeAdmin, self).get_queryset(request)
@@ -54,28 +57,36 @@ class BannerLargeAdmin(admin.ModelAdmin):
 
 class InformationAdmin(admin.ModelAdmin):
     change_list_template = 'admin/change_list_information.html'
-    list_display = ['id', 'chief_executive', 'email', 'phone', 'fax', 'created_at']
+    list_display = ['chief_executive', 'email', 'phone', 'fax', 'created_at']
 
 
 class AboutAdmin(admin.ModelAdmin):
-    list_display = ['id', 'introduction', 'watchword', 'created_at']
+    list_display = ['introduction', 'watchword', 'created_at']
+
+
+class PeopleImageAdmin(admin.ModelAdmin):
+    list_display = ['image_file', 'created_at']
 
 
 class ClinicAboutAdmin(admin.ModelAdmin):
-    list_display = ['id', 'purpose', 'activity', 'created_at']
+    list_display = ['purpose', 'activity', 'created_at']
+
+
+class SocietyAboutAdmin(admin.ModelAdmin):
+    list_display = ['name', 'description']
 
 
 class DonationPageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'introduction', 'benefits', 'created_at']
+    list_display = ['introduction', 'benefits', 'created_at']
 
 admin.site.register(BannerSmall, BannerSmallAdmin)
 admin.site.register(BannerLarge, BannerLargeAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Donation, DonationAdmin)
 admin.site.register(HistoryMain, HistoryAdmin)
-admin.site.register(SocietyAbout)
+admin.site.register(SocietyAbout, SocietyAboutAdmin)
 admin.site.register(People, PeopleAdmin)
-admin.site.register(PeopleImage)
+admin.site.register(PeopleImage, PeopleImageAdmin)
 admin.site.register(Information, InformationAdmin)
 admin.site.register(About, AboutAdmin)
 admin.site.register(ClinicAbout, ClinicAboutAdmin)

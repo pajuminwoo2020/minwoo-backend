@@ -6,7 +6,7 @@ from user.models import User
 
 class UserAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
-    list_display = ['id', 'userid', 'fullname', 'is_active', 'group', 'last_login', 'created_at']
+    list_display = ['userid', 'fullname', 'is_active', 'group', 'last_login', 'created_at']
     list_filter = ['is_active']
     list_max_show_all = 5000
     search_fields = ['userid', 'fullname']

@@ -15,6 +15,7 @@ from rest_framework.views import APIView
 
 from user.serializers import UserCreateRequestSerializer, UserRequestSerializer, UserResponseSerializer, UserLoginRequestSerializer, PasswordResetRequestSerializer, PasswordChangeRequestSerializer, PasswordUpdateRequestSerializer
 from app.common.mixins import PermissionMixin
+from app.exceptions import ErrorCode
 from user.models import user_activation_token, password_reset_token
 
 logger = logging.getLogger('logger')
@@ -35,6 +36,13 @@ class CreateUserView(APIView):
         """
         if request.user.is_authenticated:
             return JsonResponse({'error_message': _('Already logged in')}, safe=False, status=status.HTTP_400_BAD_REQUEST)
+
+        userid = request.data.get('userid')
+        if get_user_model().objects.filter(userid=userid).exists():
+            # 중복아이디 났을때 프론트에서 리다이렉트 처리할 수 있도록 validation전에 미리 체크함. 이번 프로젝트에만 임시로 넣은 코드
+            logger.info(f'Attempted to create User with existing userid={userid}')
+
+            return JsonResponse({'error_code': ErrorCode.USERID_ALREADY_EXISTS}, safe=False, status=status.HTTP_400_BAD_REQUEST)
 
         with transaction.atomic():
             user_serializer = UserCreateRequestSerializer(data=request.data)

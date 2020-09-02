@@ -6,7 +6,7 @@ class DonationPage(models.Model) :
     introduction = models.TextField(blank=False, verbose_name='기부소개')
     benefits = models.TextField(blank=False, verbose_name='회원이 되면')
     payment_method = models.TextField(blank=False, verbose_name='회비 납부 방법')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
         verbose_name = '[페이지수정]기부 소개'
