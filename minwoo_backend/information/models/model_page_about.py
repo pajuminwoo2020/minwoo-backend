@@ -6,7 +6,7 @@ class About(models.Model) :
     introduction = models.TextField(blank=False, verbose_name='소개')
     watchword = models.TextField(blank=False, verbose_name='회원 다짐')
     purpose = models.TextField(blank=False, verbose_name='창립취지문')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
         verbose_name = '[페이지수정]민우회 소개'

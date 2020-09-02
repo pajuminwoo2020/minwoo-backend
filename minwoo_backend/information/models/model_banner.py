@@ -17,6 +17,7 @@ class Banner(Image):
         (TYPE_LARGE, TYPE_LARGE_DISPLAY),
     )
 
+    title = models.CharField(max_length=255, null=True, blank=True, verbose_name='배너 제목')
     href = models.CharField(max_length=255, blank=False, help_text='배너 클릭시 이동할 주소(예시: https://www.naver.com)', verbose_name='배너주소')
     banner_type = models.CharField(max_length=10, choices=TYPE, default=TYPE_LARGE, blank=False, verbose_name='배너타입')
 

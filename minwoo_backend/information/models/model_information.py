@@ -25,7 +25,7 @@ class Information(models.Model):
     instagram_feed = models.CharField(max_length=255, blank=True, null=True, verbose_name='인스타그램 게시물 주소', help_text="메인화면 인스타그램 미리보기 게시물")
     location_latitude = models.DecimalField(max_digits = 7, null=True, decimal_places=4, verbose_name='위도')
     location_longitude = models.DecimalField(max_digits = 7, null=True, decimal_places=4, verbose_name='경도')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='수정일')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
         verbose_name_plural = '기본 정보 관리'

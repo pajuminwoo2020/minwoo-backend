@@ -82,7 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     language = models.CharField(max_length=5, null=False, blank=False, choices=settings.LANGUAGES, default=settings.LANGUAGE_CODE)
     timezone = models.CharField(max_length=255, null=False, blank=False, choices=settings.TIME_ZONES, default=settings.TIME_ZONE_ASIA_SEOUL)
     is_active = models.BooleanField(default=False, verbose_name='이메일 인증여부')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='가입일')
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = UserManager()

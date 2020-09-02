@@ -15,7 +15,7 @@ logger = logging.getLogger('logger')
 
 class Image(models.Model):
     image_file = models.ImageField(blank=True, null=True, max_length=2048, verbose_name='이미지 파일')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:
         ordering = ['created_at']
