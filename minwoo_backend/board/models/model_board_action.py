@@ -9,7 +9,7 @@ logger = logging.getLogger('logger')
 
 class BoardAction(BoardBase):
     created_by = models.ForeignKey('user.User', null=True, on_delete=models.SET_NULL, related_name='board_actions')
-    thumbnail = models.ForeignKey('board.Image', null=True, on_delete=models.SET_NULL, related_name='board_actions')
+    thumbnail_source = models.CharField(blank=True, null=True, max_length=255)
     category = models.ForeignKey('board.Category', null=True, on_delete=models.SET_NULL, related_name='board_actions')
 
     class Meta:

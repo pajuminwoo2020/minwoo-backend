@@ -1,6 +1,8 @@
 import logging
 import os
 import io
+import random
+import string
 
 from django.db import models
 from django.core.files import File
@@ -237,4 +239,10 @@ class Donation(models.Model):
         return File(file=application_file_stream, name=application_file_name)
 
     def get_absolute_url(self):
-        return reverse('information:donation_download', kwargs={'uidb64': urlsafe_base64_encode(force_bytes(self.id))})
+        """
+        Id값만 인코딩하면 너무 짧아서 랜덤 스트링을 붙인 후에 인코딩한다
+        """
+        random_str = ''.join(random.sample(string.ascii_lowercase, 10))
+        uidb64_string = f'{random_str}{self.id}'
+
+        return reverse('information:donation_download', kwargs={'uidb64': urlsafe_base64_encode(force_bytes(uidb64_string))})

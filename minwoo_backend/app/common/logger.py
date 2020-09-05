@@ -29,16 +29,14 @@ class Logger:
             'request_url': request_url
         }
         try:
-            if 'application/json' == response.__getitem__('Content-Type'):
+            if response.has_header('Content-Type') and 'application/json' == response.__getitem__('Content-Type'):
                 encoding = chardet.detect(response.content).get('encoding', 'utf-8')
                 if encoding is None or encoding == 'ascii':
                     encoding = 'unicode_escape'
                 body = response.content.decode(encoding)
                 if len(body) > 0 and 'swagger' not in body:
                     response_log_params['response'] = body
-            else:
-                response_log_params['response'] = response.__getitem__('Content-Type')
-        except UnicodeDecodeError:
-            response_log_params['response'] = f'body exist but decode error'
+        except Exception as e:
+            response_log_params['response'] = str(e)
 
         return json.dumps(response_log_params, ensure_ascii=False).replace('\\"', '"')
