@@ -13,51 +13,23 @@ logger = logging.getLogger('logger')
 
 
 class CreateBoardActionRequestSerializer(CreateBoardBaseRequestSerializer):
-    thumbnail_source = serializers.CharField(required=False, allow_blank=True, allow_null=True)
-
     class Meta(CreateBoardBaseRequestSerializer.Meta):
         model = BoardAction
         fields = ['thumbnail_source', 'category'] + CreateBoardBaseRequestSerializer.Meta.fields
 
-    def create(self, validated_data):
-        thumbnail_pk = get_image_pk(validated_data.pop('thumbnail_source', None))
-        validated_data.update({
-            'thumbnail': Image.objects.filter(pk=thumbnail_pk).first()
-        })
-
-        return super(CreateBoardActionRequestSerializer, self).create(validated_data)
-
 
 class BoardActionRequestSerializer(BoardBaseRequestSerializer):
-    thumbnail_source = serializers.CharField(required=False, allow_blank=True, allow_null=True)
-
     class Meta(BoardBaseRequestSerializer.Meta):
         model = BoardAction
         fields = ['thumbnail_source', 'category'] + BoardBaseRequestSerializer.Meta.fields
 
-    def update(self, instance, validated_data):
-        thumbnail_pk = get_image_pk(validated_data.pop('thumbnail_source', None))
-        validated_data.update({
-            'thumbnail': Image.objects.filter(pk=thumbnail_pk).first()
-        })
-
-        return super(BoardActionRequestSerializer, self).update(instance, validated_data)
-
 
 class BoardActionResponseSerializer(BoardBaseResponseSerializer):
-    thumbnail_source = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField()
 
     class Meta(BoardBaseResponseSerializer.Meta):
         model = BoardAction
         fields = ['thumbnail_source', 'category'] + BoardBaseResponseSerializer.Meta.fields
-
-    @swagger_serializer_method(serializer_or_field=serializers.CharField)
-    def get_thumbnail_source(self, obj):
-        if obj.thumbnail:
-            return reverse('board:image', kwargs={'image_id': obj.thumbnail.pk})
-
-        return None
 
     @swagger_serializer_method(serializer_or_field=CategoryResponseSerializer)
     def get_category(self, obj):

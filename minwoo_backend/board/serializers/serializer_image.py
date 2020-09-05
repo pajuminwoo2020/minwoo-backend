@@ -27,6 +27,7 @@ class UploadImageRequestSerializer(serializers.ModelSerializer):
 
         return data
 
+
 class ImageResponseSerializer(serializers.ModelSerializer):
     location = serializers.SerializerMethodField()
 
@@ -36,6 +37,4 @@ class ImageResponseSerializer(serializers.ModelSerializer):
 
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_location(self, obj):
-        request = self.context.get('request')
-
         return obj.get_image_absolute_url()

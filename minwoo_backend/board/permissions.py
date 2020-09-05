@@ -6,7 +6,7 @@ logger = logging.getLogger('logger')
 
 class BoardManagementPermission(BasePermission):
     def has_permission(self, request, view):
-        if request.user is None:
+        if request.user is None or request.user.is_anonymous:
             logger.warning(f'User{request.user} is not authenticated')
 
             return False

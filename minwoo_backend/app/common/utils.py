@@ -2,11 +2,16 @@ import base64
 import json
 import os
 import pathlib
+import random
+import string
 from collections import OrderedDict
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMultiAlternatives
+from django.utils.datetime_safe import datetime
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from drf_yasg import openapi
 from drf_yasg.inspectors import ViewInspector
 from drf_yasg.openapi import ReferenceResolver
@@ -92,3 +97,32 @@ class SchemaGenerator:
         )
 
         return result
+
+
+def image_directory_path(filename, extension=None):
+    """
+    file path가 그대로 노출되는것을 막기 위해 random string 등을 조합한 후에 encoding한다.
+    """
+    random_str = ''.join(random.sample(string.ascii_lowercase, 10))
+    extension = extension if extension else get_file_extension(filename)
+
+    return f'image/{str(datetime.today().date())}/{random_str}{urlsafe_base64_encode(force_bytes(filename))}.{extension}'
+
+
+def get_file_extension(filename):
+    if len(filename.split('.')) > 1:
+        return filename.split(".")[-1]
+
+    return ''
+
+
+def file_directory_path(instance, filename):
+    """
+    file path가 그대로 노출되는것을 막기 위해 random string 등을 조합한 후에 encoding한다.
+    """
+    random_str = ''.join(random.sample(string.ascii_lowercase, 10))
+    extension = get_file_extension(filename)
+    if extension:
+        return f'file/{str(datetime.today().date())}/{random_str}{urlsafe_base64_encode(force_bytes(filename))}.{extension}'
+
+    return f'file/{str(datetime.today().date())}/{random_str}{urlsafe_base64_encode(force_bytes(filename))}'

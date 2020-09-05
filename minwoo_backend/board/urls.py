@@ -76,9 +76,8 @@ urlpatterns = [
 
     # Image
     path('board/image', views.UploadImageView.as_view(), name='image_upload'),
-    path('board/image/<int:image_id>', views.ImageView.as_view(), name='image'),
     path('board/file', views.UploadFileView.as_view(), name='file_upload'),
-    path('board/file/<int:file_id>', views.FileView.as_view(), name='file'),
+    path('board/file/<slug:uidb64>', views.FileView.as_view(), name='file'),
 
     # Category
     path('board/categories/select/<str:board_type>', views.SelectCategoriesView.as_view(), name='category_select'),

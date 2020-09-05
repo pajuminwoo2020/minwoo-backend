@@ -9,7 +9,7 @@ logger = logging.getLogger('logger')
 
 class BoardGallery(BoardBase):
     created_by = models.ForeignKey('user.User', null=True, on_delete=models.SET_NULL, related_name='board_gallerys')
-    thumbnail = models.ForeignKey('board.Image', null=True, on_delete=models.SET_NULL, related_name='board_gallerys')
+    thumbnail_source = models.CharField(blank=True, null=True, max_length=255)
 
     class Meta:
         ordering = ['created_at']
