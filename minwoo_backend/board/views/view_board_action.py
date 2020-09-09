@@ -125,7 +125,7 @@ class BoardActionsView(ListModelMixin, APIView):
         """
         queryset = []
         queryset += self._filter_queryset(BoardAction.objects.all())
-        queryset += self._filter_queryset(BoardAffiliateActivity.objects.all())
+        queryset += self._filter_queryset(BoardAffiliateActivity.objects.filter(on_board_action=True).all())
 
         queryset = sorted(queryset, key=lambda obj: obj.created_at, reverse=True)
         page = self._paginate_queryset(queryset)
