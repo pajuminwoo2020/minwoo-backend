@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework.exceptions import APIException
 from rest_framework.parsers import MultiPartParser
 
-from board.models import File, BoardIntranetDrive, BoardIntranetShare, BoardIntranetGeneral
+from board.models import File, BoardIntranetDrive, BoardIntranetShare
 from board.serializers import UploadFileRequestSerializer, FileResponseSerializer
 from board.permissions import  BoardManagementPermission
 

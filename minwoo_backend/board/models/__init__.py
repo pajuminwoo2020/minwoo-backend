@@ -4,7 +4,6 @@ from .model_board_notice import *
 from .model_board_action import *
 from .model_board_activity_member import *
 from .model_board_press import *
-from .model_board_member_space import *
 from .model_board_newsletter import *
 from .model_board_gallery import *
 from .model_board_drive import *
@@ -12,7 +11,6 @@ from .model_board_society_activity import *
 from .model_board_affiliate_activity import *
 from .model_board_intranet_share import *
 from .model_board_intranet_drive import *
-from .model_board_intranet_general import *
 from .model_category import *
 from .model_image import *
 from .model_file import *

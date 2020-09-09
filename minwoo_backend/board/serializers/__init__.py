@@ -5,7 +5,6 @@ from .serializer_board_notice import *
 from .serializer_board_action import *
 from .serializer_board_activity_member import *
 from .serializer_board_press import *
-from .serializer_board_member_space import *
 from .serializer_board_newsletter import *
 from .serializer_board_gallery import *
 from .serializer_board_drive import *
@@ -13,6 +12,5 @@ from .serializer_board_society_activity import *
 from .serializer_board_affiliate_activity import *
 from .serializer_board_intranet_share import *
 from .serializer_board_intranet_drive import *
-from .serializer_board_intranet_general import *
 from .serializer_image import *
 from .serializer_file import *

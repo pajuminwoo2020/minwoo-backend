@@ -9,6 +9,9 @@ logger = logging.getLogger('logger')
 
 class BoardAffiliateActivity(BoardBase):
     created_by = models.ForeignKey('user.User', null=True, on_delete=models.SET_NULL, related_name='board_affiliate_activities')
+    thumbnail_source = models.CharField(blank=True, null=True, max_length=255)
+    category = models.ForeignKey('board.Category', null=True, on_delete=models.SET_NULL, related_name='board_affiliate_activities')
+    on_board_action = models.BooleanField(blank=True, default=False)
 
     class Meta:
         ordering = ['created_at']

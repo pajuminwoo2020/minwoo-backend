@@ -6,7 +6,7 @@ from drf_yasg import openapi
 from rest_framework import status
 from rest_framework.views import APIView
 
-from information.models import HistoryMain
+from information.models import HistoryMain, HistoryAffiliate
 from information.serializers import HistoryResponseSerializer
 from app.common.utils import SchemaGenerator
 
@@ -51,6 +51,24 @@ class MainHistoriesView(APIView):
         if not main_histories:
             return JsonResponse([], safe=False, status=status.HTTP_200_OK)
 
-        histories = create_histories_list(main_histories)
+        return JsonResponse(create_histories_list(main_histories), safe=False, status=status.HTTP_200_OK)
 
-        return JsonResponse(histories, safe=False, status=status.HTTP_200_OK)
+
+class AffiliateHistoriesView(APIView):
+    @swagger_auto_schema(
+        tags=['information'],
+        operation_id='Get Histories of Affiliate',
+        responses={
+            200: openapi.Schema(type=openapi.TYPE_ARRAY, items=openapi.TYPE_OBJECT, description='{year: "", children: []'),
+        },
+    )
+    def get(self, request, *args, **kwargs):
+        """
+        Gets a list of HistoryAffiliate
+        """
+        histories = HistoryAffiliate.objects.all().order_by('-date_at')
+
+        if not histories:
+            return JsonResponse([], safe=False, status=status.HTTP_200_OK)
+
+        return JsonResponse(create_histories_list(histories), safe=False, status=status.HTTP_200_OK)

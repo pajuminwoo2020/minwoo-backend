@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 
 from information.models import Donation
-from information.serializers import DonationResponseSerializer, CreateDonationRequestSerializer
+from information.serializers import DonationResponseSerializer, DonationSimpleResponseSerializer, CreateDonationRequestSerializer
 from app.common.mixins import ListModelMixin
 from app.common.utils import SchemaGenerator
 from app.common.filters import OrderingFilter
@@ -74,11 +74,11 @@ class DonationsView(ListModelMixin, APIView):
         tags=['information'],
         operation_id='Get Donations',
         responses={
-            200: SchemaGenerator.generate_page_schema(DonationResponseSerializer),
+            200: SchemaGenerator.generate_page_schema(DonationSimpleResponseSerializer),
         },
     )
     def get(self, request, *args, **kwargs):
         """
         Gets a list of Donations at the Institution with the corresponding id
         """
-        return self.list(Donation.objects.all(), DonationResponseSerializer)
+        return self.list(Donation.objects.all(), DonationSimpleResponseSerializer)

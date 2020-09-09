@@ -93,3 +93,27 @@ class BoardBaseResponseSerializer(serializers.ModelSerializer):
         from board.serializers import FileResponseSerializer
 
         return FileResponseSerializer(obj.files, many=True).data
+
+
+class BoardCommonResponseSerializer(serializers.Serializer):
+    hit_count = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+    board_type = serializers.SerializerMethodField()
+    id = serializers.IntegerField()
+    title = serializers.CharField()
+    created_at = serializers.CharField()
+
+    class Meta:
+        fields = ['id', 'board_type', 'title', 'hit_count', 'created_by', 'created_at']
+
+    @swagger_serializer_method(serializer_or_field=serializers.IntegerField)
+    def get_hit_count(self, obj):
+        return obj.hit_count.hits
+
+    @swagger_serializer_method(serializer_or_field=serializers.CharField)
+    def get_board_type(self, obj):
+        return obj.__class__.__name__
+
+    @swagger_serializer_method(serializer_or_field=UserResponseSerializer)
+    def get_created_by(self, obj):
+        return UserResponseSerializer(obj.created_by).data

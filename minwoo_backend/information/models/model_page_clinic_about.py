@@ -3,8 +3,10 @@ import logging
 from django.db import models
 
 class ClinicAbout(models.Model) :
-    purpose = models.TextField(blank=False, verbose_name='설립 취지')
-    activity = models.TextField(blank=False, verbose_name='활동 내용')
+    purpose = models.TextField(blank=True, null=True, verbose_name='설립 취지')
+    counseling = models.TextField(blank=True, null=True, verbose_name='상담')
+    education = models.TextField(blank=True, null=True, verbose_name='교육')
+    activity = models.TextField(blank=True, null=True, verbose_name='폭력예방활동')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     class Meta:

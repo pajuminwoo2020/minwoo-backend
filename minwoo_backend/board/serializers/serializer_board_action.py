@@ -26,14 +26,19 @@ class BoardActionRequestSerializer(BoardBaseRequestSerializer):
 
 class BoardActionResponseSerializer(BoardBaseResponseSerializer):
     category = serializers.SerializerMethodField()
+    board_type = serializers.SerializerMethodField()
 
     class Meta(BoardBaseResponseSerializer.Meta):
         model = BoardAction
-        fields = ['thumbnail_source', 'category'] + BoardBaseResponseSerializer.Meta.fields
+        fields = ['thumbnail_source', 'category', 'board_type'] + BoardBaseResponseSerializer.Meta.fields
 
     @swagger_serializer_method(serializer_or_field=CategoryResponseSerializer)
     def get_category(self, obj):
         return CategoryResponseSerializer(obj.category).data
+
+    @swagger_serializer_method(serializer_or_field=serializers.CharField)
+    def get_board_type(self, obj):
+        return obj.__class__.__name__
 
 
 class BoardActionWithBodyResponseSerializer(BoardActionResponseSerializer):

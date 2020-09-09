@@ -6,4 +6,4 @@ class DonationPageResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DonationPage
-        fields = ['introduction', 'benefits', 'payment_method']
+        fields = ['introduction', 'benefits', 'payment_method', 'regular', 'temporary']

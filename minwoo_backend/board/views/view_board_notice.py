@@ -109,7 +109,7 @@ class BoardNoticeView(PermissionMixin, HitCountMixin, APIView):
 
 class BoardNoticesView(ListModelMixin, APIView):
     filter_backends = [CategoryFilter, SearchFilter, OrderingFilter]
-    search_fields = ['created_by__fullname', 'title']
+    search_fields = ['title', 'body']
     ordering_default = ['-created_at']
 
     @swagger_auto_schema(

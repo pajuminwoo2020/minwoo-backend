@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, SocietyAbout, People, Information, About, ClinicAbout, DonationPage, PeopleImage
+from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, Information, About, ClinicAbout, DonationPage, PeopleImage
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -22,11 +22,6 @@ class CalendarAdmin(admin.ModelAdmin):
 class HistoryAdmin(admin.ModelAdmin):
     list_display = ['memo', 'date_at']
     ordering = ('-date_at', )
-
-
-class PeopleAdmin(admin.ModelAdmin):
-    list_display = ['name', 'position', 'ordering']
-    search_fields = ['name']
 
 
 class BannerSmallAdmin(admin.ModelAdmin):
@@ -84,8 +79,8 @@ admin.site.register(BannerLarge, BannerLargeAdmin)
 admin.site.register(Calendar, CalendarAdmin)
 admin.site.register(Donation, DonationAdmin)
 admin.site.register(HistoryMain, HistoryAdmin)
+admin.site.register(HistoryAffiliate, HistoryAdmin)
 admin.site.register(SocietyAbout, SocietyAboutAdmin)
-admin.site.register(People, PeopleAdmin)
 admin.site.register(PeopleImage, PeopleImageAdmin)
 admin.site.register(Information, InformationAdmin)
 admin.site.register(About, AboutAdmin)

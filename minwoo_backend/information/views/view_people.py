@@ -16,6 +16,9 @@ logger = logging.getLogger('logger')
 
 
 def create_people_list(queryset):
+    """
+    조직도 리스트 리턴하는 함수. 추후 요청에 의해 삭제됐으나 일단 코드는 남겨둠
+    """
     result = []
     for person in queryset:
         person_in_position = list(filter(lambda x : x.get('position') == person.position, result))
@@ -34,6 +37,7 @@ def create_people_list(queryset):
 
     return result
 
+
 class PeopleView(APIView):
     @swagger_auto_schema(
         tags=['people'],
@@ -46,10 +50,6 @@ class PeopleView(APIView):
         """
         Gets people
         """
-        people = create_people_list(People.objects.all().order_by(F('ordering').asc(nulls_last=True)))
         people_image = PeopleImage.objects.order_by('created_at').last()
 
-        return JsonResponse({
-            'contents': people,
-            'absolute_url': people_image.get_image_absolute_url(),
-        }, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse({'absolute_url': people_image.get_image_absolute_url()}, safe=False, status=status.HTTP_200_OK)
