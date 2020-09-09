@@ -109,7 +109,7 @@ class BoardAffiliateActivityView(PermissionMixin, HitCountMixin, APIView):
 
 class BoardAffiliateActivitiesView(ListModelMixin, APIView):
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ['created_by__fullname', 'title']
+    search_fields = ['title', 'body']
     ordering_default = ['-created_at']
 
     @swagger_auto_schema(

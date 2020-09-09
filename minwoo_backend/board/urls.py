@@ -28,11 +28,6 @@ urlpatterns = [
     path('board/press/<int:board_id>', views.BoardPressView.as_view(), name='board_press'),
     path('board/presses', views.BoardPressesView.as_view(), name='board_presses'),
 
-    # BoardMemberSpace
-    path('board/member_space', views.CreateBoardMemberSpaceView.as_view(), name='board_member_space_create'),
-    path('board/member_space/<int:board_id>', views.BoardMemberSpaceView.as_view(), name='board_member_space'),
-    path('board/member_spaces', views.BoardMemberSpacesView.as_view(), name='board_member_spaces'),
-
     # BoardSocietyActivity
     path('board/society_activity', views.CreateBoardSocietyActivityView.as_view(), name='board_society_activity_create'),
     path('board/society_activity/<int:board_id>', views.BoardSocietyActivityView.as_view(), name='board_society_activity'),
@@ -68,12 +63,6 @@ urlpatterns = [
     path('board/intranetdrive/<int:board_id>', views.BoardIntranetDriveView.as_view(), name='board_intranetdrive'),
     path('board/intranetdrives', views.BoardIntranetDrivesView.as_view(), name='board_intranetdrives'),
 
-    # BoardIntranetGeneral
-    path('board/intranetgeneral', views.CreateBoardIntranetGeneralView.as_view(), name='board_intranetgeneral_create'),
-    path('board/intranetgeneral/<int:board_id>', views.BoardIntranetGeneralView.as_view(), name='board_intranetgeneral'),
-    path('board/intranetgenerals', views.BoardIntranetGeneralsView.as_view(), name='board_intranetgenerals'),
-
-
     # Image
     path('board/image', views.UploadImageView.as_view(), name='image_upload'),
     path('board/file', views.UploadFileView.as_view(), name='file_upload'),
@@ -81,4 +70,7 @@ urlpatterns = [
 
     # Category
     path('board/categories/select/<str:board_type>', views.SelectCategoriesView.as_view(), name='category_select'),
+
+    # Global search
+    path('board/global', views.BoardSearchGlobalView.as_view(), name='board_search_global'),
 ]

@@ -73,8 +73,9 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    GROUP_STAFF = "스태프"
+    GROUP_STAFF = "활동가"
     GROUP_ADMIN = "관리자"
+    GROUP_GENERAL = "일반 사용자"
 
     userid = models.EmailField(max_length=255, unique=True, blank=False, verbose_name='아이디')
     fullname = models.CharField(max_length=255, blank=False, verbose_name='이름')
@@ -164,8 +165,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         if self.is_group_admin():
             group_list.append(User.GROUP_ADMIN)
-        if self.is_group_staff():
+        elif self.is_group_staff():
             group_list.append(User.GROUP_STAFF)
+        else:
+            group_list.append(User.GROUP_GENERAL)
 
         return group_list
 

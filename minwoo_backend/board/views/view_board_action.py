@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from hitcount.views import HitCountMixin
 
-from board.models import BoardAction
+from board.models import BoardAction, BoardAffiliateActivity
 from board.serializers import BoardActionResponseSerializer, CreateBoardActionRequestSerializer, BoardActionRequestSerializer, BoardActionWithBodyResponseSerializer
 from board.permissions import  BoardManagementPermission
 from app.common.mixins import PermissionMixin, ListModelMixin
@@ -109,7 +109,7 @@ class BoardActionView(PermissionMixin, HitCountMixin, APIView):
 
 class BoardActionsView(ListModelMixin, APIView):
     filter_backends = [CategoryFilter, SearchFilter, OrderingFilter]
-    search_fields = ['created_by__fullname', 'title']
+    search_fields = ['title', 'body']
     ordering_default = ['-created_at']
 
     @swagger_auto_schema(
@@ -123,4 +123,13 @@ class BoardActionsView(ListModelMixin, APIView):
         """
         Gets a list of BoardActions at the Institution with the corresponding id
         """
-        return self.list(BoardAction.objects.all(), BoardActionResponseSerializer)
+        queryset = []
+        queryset += self._filter_queryset(BoardAction.objects.all())
+        queryset += self._filter_queryset(BoardAffiliateActivity.objects.all())
+
+        queryset = sorted(queryset, key=lambda obj: obj.created_at, reverse=True)
+        page = self._paginate_queryset(queryset)
+        if page is not None:
+            return self._get_paginated_response((BoardActionResponseSerializer(page, many=True, **kwargs).data))
+
+        return JsonResponse(BoardActionResponseSerializer(queryset, many=True, **kwargs).data, safe=False, status=status.HTTP_200_OK)

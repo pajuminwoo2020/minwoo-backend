@@ -3,10 +3,7 @@ from rest_framework import serializers
 
 from information.models import ClinicAbout
 
-class ClinicAboutResponseSerializer(serializers.Serializer):
-    purpose = serializers.CharField()
-    activity = serializers.CharField()
-
+class ClinicAboutResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClinicAbout
-        fields = ['purpose', 'activity']
+        fields = ['purpose', 'counseling', 'education', 'activity']

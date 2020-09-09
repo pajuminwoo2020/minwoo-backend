@@ -35,6 +35,7 @@ urlpatterns = [
 
     # ClinicAbout page
     path('affiliate/clinic/about', views.ClinicAboutView.as_view(), name='clinic_about'),
+    path('affiliate/clinic/histories', views.AffiliateHistoriesView.as_view(), name='clinic_histories'),
 
     # Donation page
     path('donation/page', views.DonationPageView.as_view(), name='donation_page'),

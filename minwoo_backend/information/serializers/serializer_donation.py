@@ -46,3 +46,15 @@ class DonationResponseSerializer(serializers.ModelSerializer):
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
     def get_absolute_url(self, obj):
         return obj.get_absolute_url()
+
+
+class DonationSimpleResponseSerializer(serializers.ModelSerializer):
+    applicant_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Donation
+        fields = ['id', 'donation_type', 'applicant_name', 'memo']
+
+    @swagger_serializer_method(serializer_or_field=serializers.CharField)
+    def get_applicant_name(self, obj):
+        return obj.applicant_name[0] + ''.join(map(lambda x: '*', obj.applicant_name[1:]))

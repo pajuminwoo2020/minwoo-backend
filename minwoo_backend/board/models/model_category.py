@@ -14,10 +14,13 @@ class Category(models.Model):
     TYPE_BOARD_ACTION_DISPLAY = '민우뉴스'
     TYPE_BOARD_SOCIETY_ACTIVITY = 'society_activity'
     TYPE_BOARD_SOCIETY_ACTIVITY_DISPLAY = '소모임활동'
+    TYPE_BOARD_AFFILIATE_ACTIVITY = 'affiliate_activity'
+    TYPE_BOARD_AFFILIATE_ACTIVITY_DISPLAY = '반성폭력활동'
     TYPE_BOARD = (
         (TYPE_BOARD_NOTICE, TYPE_BOARD_NOTICE_DISPLAY),
         (TYPE_BOARD_ACTION, TYPE_BOARD_ACTION_DISPLAY),
         (TYPE_BOARD_SOCIETY_ACTIVITY, TYPE_BOARD_SOCIETY_ACTIVITY_DISPLAY),
+        (TYPE_BOARD_AFFILIATE_ACTIVITY, TYPE_BOARD_AFFILIATE_ACTIVITY_DISPLAY),
     )
 
     name = models.CharField(max_length=255, blank=False, help_text='카테고리명', verbose_name='카테고리명')
