@@ -103,13 +103,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         if current_language is not None and 'en' in current_language:
             name_en = self.fullname_en
             if name_en is not None and name_en.strip() != '':
-                logger.info(f'Getting english name from User={self}')
-
                 return self.fullname_en
             else:
                 logger.info(f'No english name available from User={self}')
-
-        logger.info(f'Getting local name from User={self}')
 
         return self.fullname
 

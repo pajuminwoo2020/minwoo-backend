@@ -27,7 +27,6 @@ class SelectCategoriesView(APIView):
         """
         Gets Categories list at the corresponding board type.
         """
-
         result = []
         for category in Category.objects.filter(board_type=board_type).all():
             result.append({
