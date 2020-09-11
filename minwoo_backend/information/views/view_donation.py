@@ -39,6 +39,7 @@ class CreateDonationView(APIView):
         serializer = CreateDonationRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         donation = serializer.save()
+        donation.send_email_to_admin()
 
         return JsonResponse(DonationResponseSerializer(donation).data, safe=False, status=status.HTTP_200_OK)
 
