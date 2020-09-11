@@ -121,6 +121,6 @@ class BoardNoticesView(ListModelMixin, APIView):
     )
     def get(self, request, *args, **kwargs):
         """
-        Gets a list of BoardNotices at the Institution with the corresponding id
+        Gets a list of BoardNotices
         """
         return self.list(BoardNotice.objects.all(), BoardNoticeResponseSerializer)

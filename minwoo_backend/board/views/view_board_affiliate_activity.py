@@ -15,7 +15,7 @@ from board.serializers import BoardAffiliateActivityResponseSerializer, CreateBo
 from board.permissions import  BoardManagementPermission
 from app.common.mixins import PermissionMixin, ListModelMixin
 from app.common.utils import SchemaGenerator
-from app.common.filters import SearchFilter, OrderingFilter
+from app.common.filters import SearchFilter, OrderingFilter, CategoryFilter
 
 logger = logging.getLogger('logger')
 
@@ -108,7 +108,7 @@ class BoardAffiliateActivityView(PermissionMixin, HitCountMixin, APIView):
 
 
 class BoardAffiliateActivitiesView(ListModelMixin, APIView):
-    filter_backends = [SearchFilter, OrderingFilter]
+    filter_backends = [CategoryFilter, SearchFilter, OrderingFilter]
     search_fields = ['title', 'body']
     ordering_default = ['-created_at']
 
