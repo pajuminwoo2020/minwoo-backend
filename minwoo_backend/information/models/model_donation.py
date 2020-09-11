@@ -11,6 +11,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils.timezone import localtime
 from django.utils.datetime_safe import datetime
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 from django.urls import reverse
 from PyPDF2.pdf import PdfFileReader, PdfFileWriter
 from reportlab.pdfgen import canvas
@@ -246,3 +248,29 @@ class Donation(models.Model):
         uidb64_string = f'{random_str}{self.id}'
 
         return reverse('information:donation_download', kwargs={'uidb64': urlsafe_base64_encode(force_bytes(uidb64_string))})
+
+
+    def send_email_to_admin(self):
+        """
+        민우회 관리자 이메일로 후원신청 알림을 보냄
+        """
+        from information.models import Information
+
+        information = Information.objects.all().first()
+        message = render_to_string('donation_application_email.html', {
+            'donation': self,
+        })
+        mail_subject = f'[파주여성민우회] {self.applicant_name}님이 후원을 신청했습니다.'
+
+        filename = f'민우회 후원신청서_{self.applicant_name}.pdf'
+        content = self.generate_document()
+        content.seek(0)
+
+        email = EmailMessage(
+            subject=mail_subject,
+            body=message,
+            reply_to=[information.membership_management_email],
+            to=[information.membership_management_email],
+        )
+        email.attach(filename, content.read(), 'application/pdf')
+        email.send()

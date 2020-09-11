@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
+from information.models import Information
 
 logger = logging.getLogger('logger')
 
@@ -176,8 +177,14 @@ class User(AbstractBaseUser, PermissionsMixin):
             'user': self,
         })
         mail_subject = '[민우회] 회원가입 인증 메일입니다.'
+        information = Information.objects.all().first()
 
-        email = EmailMessage(mail_subject, message, to=[self.userid])
+        email = EmailMessage(
+            subject=mail_subject,
+            body=message,
+            reply_to=[information.membership_management_email],
+            to=[self.userid]
+        )
         email.send()
 
     def send_password_reset_email(self):
@@ -188,6 +195,12 @@ class User(AbstractBaseUser, PermissionsMixin):
             'user': self,
         })
         mail_subject = '[민우회] 패스워드 재설정 메일입니다.'
+        information = Information.objects.all().first()
 
-        email = EmailMessage(mail_subject, message, to=[self.userid])
+        email = EmailMessage(
+            subject=mail_subject,
+            body=message,
+            reply_to=[information.membership_management_email],
+            to=[self.userid]
+        )
         email.send()
