@@ -6,8 +6,7 @@ from information.models import About
 class AboutResponseSerializer(serializers.Serializer):
     introduction = serializers.CharField()
     watchword = serializers.CharField()
-    purpose = serializers.CharField()
 
     class Meta:
         model = About
-        fields = ['introduction', 'watchword', 'purpose']
+        fields = ['introduction', 'watchword']
