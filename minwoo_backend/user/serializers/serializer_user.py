@@ -113,7 +113,7 @@ class UserLoginRequestSerializer(serializers.Serializer):
         if not user.check_password(data.get('password', None)):
             raise serializers.ValidationError({'password': _('Incorrect password')})
         if not user.is_active:
-            raise serializers.ValidationError({'userid': _('Inactive user')})
+            raise serializers.ValidationError({'userid': '이메일 인증을 완료해주세요'})
 
         return data
 

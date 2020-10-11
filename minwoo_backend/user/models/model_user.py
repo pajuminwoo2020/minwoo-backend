@@ -182,7 +182,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         email = EmailMessage(
             subject=mail_subject,
             body=message,
-            reply_to=[information.membership_management_email],
+            reply_to=[information.membership_management_email if information else ''],
             to=[self.userid]
         )
         email.send()
@@ -200,7 +200,24 @@ class User(AbstractBaseUser, PermissionsMixin):
         email = EmailMessage(
             subject=mail_subject,
             body=message,
-            reply_to=[information.membership_management_email],
+            reply_to=[information.membership_management_email if information else ''],
             to=[self.userid]
+        )
+        email.send()
+
+    def send_email_to_admin(self):
+        """
+        민우회 관리자 이메일로 회원가입 알림을 보냄
+        """
+        from information.models import Information
+
+        information = Information.objects.all().first()
+        mail_subject = f'[파주여성민우회] 새로운 회원({self.fullname})이 가입했습니다.'
+
+        email = EmailMessage(
+            subject=mail_subject,
+            body=f'새로운 회원({self.fullname}[{self.userid}])이 가입했습니다.',
+            reply_to=[information.membership_management_email if information else ''],
+            to=[information.membership_management_email if information else ''],
         )
         email.send()

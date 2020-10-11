@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from hitcount.views import HitCountMixin
 
-from board.models import BoardNotice
+from board.models import BoardNotice, BoardAffiliateActivity, Category
 from board.serializers import BoardNoticeResponseSerializer, CreateBoardNoticeRequestSerializer, BoardNoticeRequestSerializer, BoardNoticeWithBodyResponseSerializer
 from board.permissions import  BoardManagementPermission
 from app.common.mixins import PermissionMixin, ListModelMixin
@@ -123,4 +123,13 @@ class BoardNoticesView(ListModelMixin, APIView):
         """
         Gets a list of BoardNotices
         """
-        return self.list(BoardNotice.objects.all(), BoardNoticeResponseSerializer)
+        queryset = []
+        queryset += self._filter_queryset(BoardNotice.objects.all())
+        queryset += self._filter_queryset(BoardAffiliateActivity.objects.filter(on_board_action=Category.TYPE_BOARD_NOTICE).all())
+
+        queryset = sorted(queryset, key=lambda obj: obj.created_at, reverse=True)
+        page = self._paginate_queryset(queryset)
+        if page is not None:
+            return self._get_paginated_response((BoardNoticeResponseSerializer(page, many=True, **kwargs).data))
+
+        return JsonResponse(BoardNoticeResponseSerializer(queryset, many=True, **kwargs).data, safe=False, status=status.HTTP_200_OK)
