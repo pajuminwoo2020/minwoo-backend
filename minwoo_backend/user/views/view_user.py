@@ -51,6 +51,8 @@ class CreateUserView(APIView):
 
             user.send_activation_email()
 
+        user.send_email_to_admin()
+
         return JsonResponse(UserResponseSerializer(user).data, safe=False, status=status.HTTP_200_OK)
 
 

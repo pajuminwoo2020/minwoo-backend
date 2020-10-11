@@ -64,7 +64,7 @@ class PeopleImageAdmin(admin.ModelAdmin):
 
 
 class ClinicAboutAdmin(admin.ModelAdmin):
-    list_display = ['purpose', 'activity', 'created_at']
+    list_display = ['counseling', 'education', 'activity', 'created_at']
 
 
 class SocietyAboutAdmin(admin.ModelAdmin):

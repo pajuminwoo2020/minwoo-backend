@@ -6,4 +6,4 @@ from information.models import ClinicAbout
 class ClinicAboutResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClinicAbout
-        fields = ['purpose', 'counseling', 'education', 'activity']
+        fields = ['counseling', 'education', 'activity', 'counseling_image', 'education_image', 'activity_image', 'counseling_title', 'education_title', 'activity_title']

@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from hitcount.views import HitCountMixin
 
-from board.models import BoardAction, BoardAffiliateActivity
+from board.models import BoardAction, BoardAffiliateActivity, Category
 from board.serializers import BoardActionResponseSerializer, CreateBoardActionRequestSerializer, BoardActionRequestSerializer, BoardActionWithBodyResponseSerializer
 from board.permissions import  BoardManagementPermission
 from app.common.mixins import PermissionMixin, ListModelMixin
@@ -125,7 +125,7 @@ class BoardActionsView(ListModelMixin, APIView):
         """
         queryset = []
         queryset += self._filter_queryset(BoardAction.objects.all())
-        queryset += self._filter_queryset(BoardAffiliateActivity.objects.filter(on_board_action=True).all())
+        queryset += self._filter_queryset(BoardAffiliateActivity.objects.filter(on_board_action=Category.TYPE_BOARD_ACTION).all())
 
         queryset = sorted(queryset, key=lambda obj: obj.created_at, reverse=True)
         page = self._paginate_queryset(queryset)
