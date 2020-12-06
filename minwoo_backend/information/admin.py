@@ -39,7 +39,7 @@ class BannerSmallAdmin(admin.ModelAdmin):
 
 class BannerLargeAdmin(admin.ModelAdmin):
     readonly_fields = ('banner_type',)
-    list_display = ['title', 'image_file', 'href']
+    list_display = ['title', 'image_file', 'href', 'date_from', 'date_to']
 
     def get_queryset(self, request):
         qs = super(BannerLargeAdmin, self).get_queryset(request)
