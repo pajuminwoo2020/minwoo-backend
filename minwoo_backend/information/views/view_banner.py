@@ -1,6 +1,8 @@
 import logging
 
 from django.http import JsonResponse
+from django.db.models import Q
+from django.utils import timezone
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.views import APIView
@@ -26,4 +28,9 @@ class BannersView(ListModelMixin, APIView):
         """
         Gets a list of Banners
         """
-        return self.list(Banner.objects.all(), BannerResponseSerializer)
+        banners = Banner.objects.filter(date_from__lte=timezone.now().date()).filter(
+            Q(date_to__isnull=True) |
+            Q(date_to__gte=timezone.now().date())
+        )
+
+        return self.list(banners, BannerResponseSerializer)
