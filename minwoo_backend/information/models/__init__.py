@@ -8,3 +8,4 @@ from .model_information import *
 from .model_page_about import *
 from .model_page_clinic_about import *
 from .model_page_donation import *
+from .model_button_image import *

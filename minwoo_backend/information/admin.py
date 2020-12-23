@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, Information, About, ClinicAbout, DonationPage, PeopleImage
+from information.models import Banner, BannerSmall, BannerLarge, Donation, Calendar, HistoryMain, HistoryAffiliate, SocietyAbout, Information, About, ClinicAbout, DonationPage, PeopleImage, DonationButtonImage, AffiliateButtonImage
 
 
 class DonationAdmin(admin.ModelAdmin):
@@ -25,7 +25,6 @@ class HistoryAdmin(admin.ModelAdmin):
 
 
 class BannerSmallAdmin(admin.ModelAdmin):
-    readonly_fields = ('banner_type',)
     list_display = ['title', 'image_file', 'href']
 
     def get_queryset(self, request):
@@ -36,9 +35,14 @@ class BannerSmallAdmin(admin.ModelAdmin):
     def get_changeform_initial_data(self, request):
         return {'banner_type': Banner.TYPE_SMALL}
 
+    def get_form(self, request, obj=None, **kwargs):
+        help_texts = {'image_file': '이미지 크기(200 x 40)'}
+        kwargs.update({'help_texts': help_texts})
+
+        return super(BannerSmallAdmin, self).get_form(request, obj, **kwargs)
+
 
 class BannerLargeAdmin(admin.ModelAdmin):
-    readonly_fields = ('banner_type',)
     list_display = ['title', 'image_file', 'href', 'date_from', 'date_to']
 
     def get_queryset(self, request):
@@ -48,6 +52,12 @@ class BannerLargeAdmin(admin.ModelAdmin):
 
     def get_changeform_initial_data(self, request):
         return {'banner_type': Banner.TYPE_LARGE}
+
+    def get_form(self, request, obj=None, **kwargs):
+        help_texts = {'image_file': '이미지 크기(723 x 395)'}
+        kwargs.update({'help_texts': help_texts})
+
+        return super(BannerLargeAdmin, self).get_form(request, obj, **kwargs)
 
 
 class InformationAdmin(admin.ModelAdmin):
@@ -60,7 +70,13 @@ class AboutAdmin(admin.ModelAdmin):
 
 
 class PeopleImageAdmin(admin.ModelAdmin):
-    list_display = ['image_file', 'created_at']
+    list_display = ['id', 'image_file', 'created_at']
+
+    def get_form(self, request, obj=None, **kwargs):
+        help_texts = {'image_file': '이미지 크기(제한 없음)'}
+        kwargs.update({'help_texts': help_texts})
+
+        return super(PeopleImageAdmin, self).get_form(request, obj, **kwargs)
 
 
 class ClinicAboutAdmin(admin.ModelAdmin):
@@ -70,9 +86,36 @@ class ClinicAboutAdmin(admin.ModelAdmin):
 class SocietyAboutAdmin(admin.ModelAdmin):
     list_display = ['name', 'description']
 
+    def get_form(self, request, obj=None, **kwargs):
+        help_texts = {'image_file': '이미지 크기(제한 없음)'}
+        kwargs.update({'help_texts': help_texts})
+
+        return super(SocietyAboutAdmin, self).get_form(request, obj, **kwargs)
+
 
 class DonationPageAdmin(admin.ModelAdmin):
     list_display = ['introduction', 'benefits', 'created_at']
+
+
+class DonationButtonImageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'image_file', 'created_at']
+
+    def get_form(self, request, obj=None, **kwargs):
+        help_texts = {'image_file': '이미지 크기(230 x 135)'}
+        kwargs.update({'help_texts': help_texts})
+
+        return super(DonationButtonImageAdmin, self).get_form(request, obj, **kwargs)
+
+
+class AffiliateButtonImageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'image_file', 'created_at']
+
+    def get_form(self, request, obj=None, **kwargs):
+        help_texts = {'image_file': '이미지 크기(230 x 135)'}
+        kwargs.update({'help_texts': help_texts})
+
+        return super(AffiliateButtonImageAdmin, self).get_form(request, obj, **kwargs)
+
 
 admin.site.register(BannerSmall, BannerSmallAdmin)
 admin.site.register(BannerLarge, BannerLargeAdmin)
@@ -86,3 +129,5 @@ admin.site.register(Information, InformationAdmin)
 admin.site.register(About, AboutAdmin)
 admin.site.register(ClinicAbout, ClinicAboutAdmin)
 admin.site.register(DonationPage, DonationPageAdmin)
+admin.site.register(DonationButtonImage, DonationButtonImageAdmin)
+admin.site.register(AffiliateButtonImage, AffiliateButtonImageAdmin)
