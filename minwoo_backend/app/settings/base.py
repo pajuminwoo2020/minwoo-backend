@@ -261,3 +261,6 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = True                    # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER    # 사이트와 관련한 자동응답을 받을 이메일 주소
+
+HITCOUNT_HITS_PER_IP_LIMIT = 0
+HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 0 } # 중복 조회 카운팅 위해 설정
