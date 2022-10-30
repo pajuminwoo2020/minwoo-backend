@@ -11,9 +11,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.urls import reverse
 from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
 
-from information.models import Information
+from app.common.utils import send_email
 
 logger = logging.getLogger('logger')
 
@@ -177,15 +176,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             'user': self,
         })
         mail_subject = '[민우회] 회원가입 인증 메일입니다.'
-        information = Information.objects.all().first()
-
-        email = EmailMessage(
+        send_email(
             subject=mail_subject,
             body=message,
-            reply_to=[information.membership_management_email if information else ''],
             to=[self.userid]
         )
-        email.send()
 
     def send_password_reset_email(self):
         uidb64 = urlsafe_base64_encode(force_bytes(self.pk))
@@ -195,15 +190,12 @@ class User(AbstractBaseUser, PermissionsMixin):
             'user': self,
         })
         mail_subject = '[민우회] 패스워드 재설정 메일입니다.'
-        information = Information.objects.all().first()
 
-        email = EmailMessage(
+        send_email(
             subject=mail_subject,
             body=message,
-            reply_to=[information.membership_management_email if information else ''],
             to=[self.userid]
         )
-        email.send()
 
     def send_email_to_admin(self):
         """
@@ -214,10 +206,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         information = Information.objects.all().first()
         mail_subject = f'[파주여성민우회] 새로운 회원({self.fullname})이 가입했습니다.'
 
-        email = EmailMessage(
+        send_email(
             subject=mail_subject,
             body=f'새로운 회원({self.fullname}[{self.userid}])이 가입했습니다.',
-            reply_to=[information.membership_management_email if information else ''],
             to=[information.membership_management_email if information else ''],
         )
-        email.send()

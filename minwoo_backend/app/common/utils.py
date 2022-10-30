@@ -1,10 +1,13 @@
 import base64
+import logging
 import json
 import os
 import pathlib
 import random
 import string
 from collections import OrderedDict
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -18,6 +21,8 @@ from drf_yasg.openapi import ReferenceResolver
 from drf_yasg.utils import filter_none
 
 from app.common.logger import Logger
+
+logger = logging.getLogger('logger')
 
 class SchemaGenerator:
     @staticmethod
@@ -126,3 +131,27 @@ def file_directory_path(instance, filename):
         return f'file/{str(datetime.today().date())}/{random_str}{urlsafe_base64_encode(force_bytes(filename))}.{extension}'
 
     return f'file/{str(datetime.today().date())}/{random_str}{urlsafe_base64_encode(force_bytes(filename))}'
+
+
+def send_email(subject, body, to, attachment=None, file_name=None, file_type=None):
+    message = Mail(
+        from_email='pajuminwoo2020@gmail.com',
+        to_emails=to,
+        subject=subject,
+        html_content=body,
+    )
+    try:
+        if attachment:
+            encoded_file = base64.b64encode(attachment).decode()
+            attached_file = Attachment(
+                FileContent(encoded_file),
+                FileName(file_name),
+                FileType(file_type),
+                Disposition('attachment')
+            )
+            message.attachment = attached_file
+
+        sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+        sg.send(message)
+    except Exception as e:
+        logger.error(e)
