@@ -11,7 +11,6 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils.timezone import localtime
 from django.utils.datetime_safe import datetime
-from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.urls import reverse
 from PyPDF2.pdf import PdfFileReader, PdfFileWriter
@@ -19,6 +18,8 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.colors import HexColor
+
+from app.common.utils import send_email
 
 logger = logging.getLogger('logger')
 
@@ -266,11 +267,11 @@ class Donation(models.Model):
         content = self.generate_document()
         content.seek(0)
 
-        email = EmailMessage(
+        send_email(
             subject=mail_subject,
             body=message,
-            reply_to=[information.membership_management_email],
             to=[information.membership_management_email],
+            attachment=content.read(),
+            file_name=filename,
+            file_type='application/pdf',
         )
-        email.attach(filename, content.read(), 'application/pdf')
-        email.send()
