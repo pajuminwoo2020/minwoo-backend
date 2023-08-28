@@ -13,6 +13,6 @@ pytest-env==0.6.2
 pillow==7.2.0
 pytz==2019.3
 PyPDF2==1.26.0
-reportlab==3.5.32
+reportlab==3.6.13
 chardet==5.0.0
 sendgrid==6.9.7
